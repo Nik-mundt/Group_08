@@ -2,6 +2,7 @@ from matplotlib import pyplot as plt
 import urllib.request
 import os
 import pandas as pd
+import seaborn as sns
 
 class AgrosClass:
     """
@@ -73,7 +74,56 @@ class AgrosClass:
         ax.set_ylabel('Output Quantity')
         ax.set_title(f'Crops Production in {year}')
         plt.show()
+    
+    def method5(self, countries):
+        """
+        Receives a list of countries or a single country as input and creates a plot of the
+        total output quantity over time for the selected countries.
+
+        Parameters
+        ---------------
+        countries: str, list of str
+            Countries of which a plot is created
+            
+        Returns
+        ---------------
+        Graph of the selected countries
+
+        """
+        try:
+            if isinstance(countries, list):
+                df_countries = self.df_agros[self.df_agros['Entity'].isin(countries)]
+                total_output = df_countries.groupby(['Entity', 'Year'])['output_quantity']\
+                    .sum().reset_index()
+                #Create the plot for each country
+                plt.figure(figsize=(10, 6))
+                ax_output = sns.lineplot(x='Year', y='output_quantity', hue='Entity', data=total_output)
+                ax_output.set(xlabel='Year', ylabel='Output Quantity')
+                ax_output.legend(loc='upper left', bbox_to_anchor=(1, 1))
+                plt.show()
+            elif isinstance(countries, str):
+                df_country = self.df_agros[self.df_agros['Entity'] == countries]
+                total_output = df_country.groupby('Year')['output_quantity'].sum().reset_index()
+                #Create the plot for each country
+                plt.figure(figsize=(10, 6))
+                ax_output = sns.lineplot(x='Year', y='output_quantity', data=total_output)
+                ax_output.set(xlabel='Year', ylabel='Output Quantity')
+                ax_output.legend([countries], loc='upper left', bbox_to_anchor=(1, 1))
+                plt.show()
+            else:
+                raise ValueError("Input should be a string or a list of strings")
+        except ValueError as val_err:
+            print(val_err)
+        except FileNotFoundError:
+            print("File not found")
+        except Exception as ex:
+            print(f"An error occurred: {ex}")
+        else:
+            print("Plot created successfully")
+        finally:
+            print("Execution complete\n")
 
 #AgrosClass.__gapminder__(2014)
 #dd = AgrosClass()
 #print(dd.df_agros.head())
+#dd.method5(["Germany", "France", "Italy"])
