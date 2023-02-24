@@ -1,8 +1,12 @@
+"""
+File docstring
+"""
+
 import urllib.request
 import os
 import pandas as pd
 
-class DataDownloader:
+class AgrosClass:
     """
     A class that downloads a CSV file from a given URL and saves it in a local directory,
     and then loads it into a pandas DataFrame.
@@ -15,16 +19,14 @@ class DataDownloader:
         url (str): The URL from which to download the CSV file.
         """
         self.url = url
-        
         directory = 'downloads'
         current_directory = os.getcwd()
         downloads_directory = os.path.join(current_directory, directory)
-    
+
         if not os.path.exists(downloads_directory):
             os.makedirs(downloads_directory)
-        
         self.directory = downloads_directory
-        self.df = self.download_and_read_file()
+        self.df_agros = self.download_and_read_file()
 
     def download_and_read_file(self):
         """
@@ -47,8 +49,8 @@ class DataDownloader:
             urllib.request.urlretrieve(self.url, file_path)
             print(f"{file_name} downloaded to {self.directory}")
 
-        df = pd.read_csv(file_path)
-        return df
+        df_agros = pd.read_csv(file_path)
+        return df_agros
 
-dd = DataDownloader()
-print(dd.df.head())
+dd = AgrosClass()
+print(dd.df_agros.head())
