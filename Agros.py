@@ -1,8 +1,11 @@
-from matplotlib import pyplot as plt
+"""
+Docstring for the file
+"""
 import urllib.request
 import os
 import pandas as pd
 import seaborn as sns
+from matplotlib import pyplot as plt
 
 class AgrosClass:
     """
@@ -74,7 +77,6 @@ class AgrosClass:
         ax.set_ylabel('Output Quantity')
         ax.set_title(f'Crops Production in {year}')
         plt.show()
-    
     def method5(self, countries):
         """
         Receives a list of countries or a single country as input and creates a plot of the
@@ -97,7 +99,8 @@ class AgrosClass:
                     .sum().reset_index()
                 #Create the plot for each country
                 plt.figure(figsize=(10, 6))
-                ax_output = sns.lineplot(x='Year', y='output_quantity', hue='Entity', data=total_output)
+                ax_output = sns.lineplot(x='Year', y='output_quantity', \
+                                         hue='Entity', data=total_output)
                 ax_output.set(xlabel='Year', ylabel='Output Quantity')
                 ax_output.legend(loc='upper left', bbox_to_anchor=(1, 1))
                 plt.show()
@@ -122,7 +125,6 @@ class AgrosClass:
             print("Plot created successfully")
         finally:
             print("Execution complete\n")
-
 #AgrosClass.__gapminder__(2014)
 #dd = AgrosClass()
 #print(dd.df_agros.head())
