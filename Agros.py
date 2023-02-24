@@ -2,6 +2,8 @@ from matplotlib import pyplot as plt
 import urllib.request
 import os
 import pandas as pd
+import numpy as np
+import seaborn as sns
 
 class AgrosClass:
     """
@@ -74,6 +76,26 @@ class AgrosClass:
         ax.set_title(f'Crops Production in {year}')
         plt.show()
 
+    def corr_matrix(self, keyword = "quantity"):
+        # Select columns that contain the keyword
+        keyword_cols = [col for col in self.df_agros.columns if keyword in col]
+        keyword_df = self.df_agros[keyword_cols]
+
+        # Calculate correlation matrix
+        correlation_matrix = keyword_df.corr()
+        corr_df = pd.DataFrame(correlation_matrix)
+
+        mask = np.triu(np.ones_like(correlation_matrix, dtype=bool))
+        corr_heatmap = sns.heatmap(corr_df, cmap="YlGnBu", annot=True, annot_kws={"size": 7, "color": "black"}, mask=mask)
+        corr_heatmap.set_xticklabels(corr_heatmap.get_xticklabels(), fontsize=7)
+        corr_heatmap.set_yticklabels(corr_heatmap.get_yticklabels(), fontsize=7)
+
+        plt.show()  
+
+
 #AgrosClass.__gapminder__(2014)
 #dd = AgrosClass()
 #print(dd.df_agros.head())
+
+
+#corr_matrix = AgrosClass.corr_matrix()
