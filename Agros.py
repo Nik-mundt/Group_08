@@ -78,8 +78,7 @@ class AgrosClass:
         ax.set_ylabel('Output Quantity')
         ax.set_title(f'Crops Production in {year}')
         plt.show()
-     
-     def corr_matrix(self, keyword = "quantity"):
+    def corr_matrix(self, keyword = "quantity"):
         # Select columns that contain the keyword
         keyword_cols = [col for col in self.df_agros.columns if keyword in col]
         keyword_df = self.df_agros[keyword_cols]
@@ -93,7 +92,7 @@ class AgrosClass:
         corr_heatmap.set_xticklabels(corr_heatmap.get_xticklabels(), fontsize=7)
         corr_heatmap.set_yticklabels(corr_heatmap.get_yticklabels(), fontsize=7)
 
-        plt.show()  
+        plt.show()
     def method5(self, countries):
         """
         Receives a list of countries or a single country as input and creates a plot of the
@@ -145,5 +144,4 @@ class AgrosClass:
 #dd = AgrosClass()
 #print(dd.df_agros.head())
 #dd.method5(["Germany", "France", "Italy"])
-#corr_matrix = AgrosClass.corr_matrix()
-
+#corr_matrix = AgrosClass.corr_matrix(dd)
