@@ -13,11 +13,12 @@ class AgrosClass:
     A class that downloads a CSV file from a given URL and saves it in a local directory,
     and then loads it into a pandas DataFrame.
     """
-    def __init__(self, url = 'https://raw.githubusercontent.com/owid/owid-datasets/master/datasets/Agricultural%20total%20factor%20productivity%20(USDA)/Agricultural%20total%20factor%20productivity%20(USDA).csv'):
+    def __init__(self, url='https://raw.githubusercontent.com/owid/owid-datasets/master/datasets/Agricultural%20total%20factor%20productivity%20(USDA)/Agricultural%20total%20factor%20productivity%20(USDA).csv'):
         """
         Initializes the DataDownloader instance.
 
-        Parameters:
+        Parameters
+        ---------------
         url (str): The URL from which to download the CSV file.
         """
         self.url = url
@@ -36,7 +37,8 @@ class AgrosClass:
         If the file is already present in the directory, it loads the file into a pandas DataFrame.
         Otherwise, it creates the directory, downloads the file, and then loads it into a DataFrame.
 
-        Returns:
+        Returns
+        ---------------
         pandas.DataFrame: The loaded pandas DataFrame.
         """
         file_name = "agriculture_dataset.csv"
@@ -53,7 +55,6 @@ class AgrosClass:
 
         df_agros = pd.read_csv(file_path)
         return df_agros
-    
     def countries_list(self):
         """
         Returns all distinct entries in the countries column of the 
@@ -86,10 +87,8 @@ class AgrosClass:
                  "West Africa", "Western Europe",
                  "Upper-middle income", "Sub-Saharan Africa",
                  "Southern Europe", "Southern Africa", "Southern Asia"]
-        
         cleaned_countries = [i for i in countries if i not in non_countries]
         return cleaned_countries
-    
     def area_chart (self, country:str, normalize:bool):
         """
         Plots an area chart tracking the evolution of output quantity
@@ -141,7 +140,6 @@ class AgrosClass:
 
             plt.xlabel("Year")
             plt.legend(["Crop", "Animal", "Fish"])
-            
         elif country in [None, "World"]:
             plot_df = pd.DataFrame()
             plot_df["year_total"] = output_df[["output_quantity", "Year"]]\
@@ -171,7 +169,6 @@ class AgrosClass:
             plt.legend(["Crop", "Animal", "Fish"])
         else:
             raise ValueError("Inserted Country is not in Dataset")
-    
     def __gapminder__(year):
         """
         This method plots a scatter plot of fertilizer_quantity vs 
@@ -191,7 +188,7 @@ class AgrosClass:
 
         # Plot the scatter plot
         fig, ax = plt.subplots()
-        ax.scatter(agriculture_filtered_df['fertilizer_quantity'], 
+        ax.scatter(agriculture_filtered_df['fertilizer_quantity'],
                    agriculture_filtered_df['output_quantity'],
                    s=agriculture_filtered_df['tfp'], alpha=0.6)
         ax.set_xlabel('Fertilizer Quantity')
@@ -203,8 +200,14 @@ class AgrosClass:
         Calculates and displays a correlation matrix heatmap for the columns in
         df_agros that contain the specified keyword in their column name.
 
-        Parameters:
+        Parameters
+        ---------------
         keyword (str): The keyword to search for in column names. Default is "quantity".
+
+        Returns
+        ---------------
+        None
+            Displays a heatmap of the correlation matrix
         """
         # Select columns that contain the keyword
         keyword_cols = [col for col in self.df_agros.columns if keyword in col]
@@ -215,7 +218,8 @@ class AgrosClass:
         corr_df = pd.DataFrame(correlation_matrix)
 
         mask = np.triu(np.ones_like(correlation_matrix, dtype=bool))
-        corr_heatmap = sns.heatmap(corr_df, cmap="Greens", annot=True, annot_kws={"size": 7, "color": "black"}, mask=mask)
+        corr_heatmap = sns.heatmap(corr_df, cmap="Greens", annot=True,
+                                   annot_kws={"size": 7, "color": "black"}, mask=mask)
         corr_heatmap.set_xticklabels(corr_heatmap.get_xticklabels(), fontsize=7)
         corr_heatmap.set_yticklabels(corr_heatmap.get_yticklabels(), fontsize=7)
 
@@ -231,7 +235,8 @@ class AgrosClass:
             
         Returns
         ---------------
-        Graph of the selected countries
+        None
+            Displays a graph of the selected countries
 
         """
         try:
