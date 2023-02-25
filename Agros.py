@@ -1,3 +1,7 @@
+"""
+Docstring
+"""
+
 import urllib.request
 import os
 import pandas as pd
@@ -148,14 +152,12 @@ class AgrosClass:
             .groupby(["Year"]).sum()/10**9
             plot_df["fish_total"] = output_df[["fish_output_quantity", "Year"]]\
             .groupby(["Year"]).sum()/10**9
-            
             if normalize is False:
                 plt.stackplot(output_df["Year"].unique(),
                               plot_df["crop_total"],
                               plot_df["crop_total"],
                               plot_df["fish_total"])
                 plt.ylabel("Output Quantity by Type (Billions)")
-                
             if normalize is True:
                 plt.stackplot(output_df["Year"].unique(),
                               (plot_df["crop_total"]\
@@ -165,10 +167,8 @@ class AgrosClass:
                               (plot_df["fish_total"]\
                                /plot_df["year_total"])*100)
                 plt.ylabel("% of Output by Type")
-                
             plt.xlabel("Year")
             plt.legend(["Crop", "Animal", "Fish"])
-            
         else:
             raise ValueError("Inserted Country is not in Dataset")
     
