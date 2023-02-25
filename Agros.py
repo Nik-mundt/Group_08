@@ -199,6 +199,13 @@ class AgrosClass:
         ax.set_title(f'Crops Production in {year}')
         plt.show()
     def corr_matrix(self, keyword = "quantity"):
+        """
+        Calculates and displays a correlation matrix heatmap for the columns in
+        df_agros that contain the specified keyword in their column name.
+
+        Parameters:
+        keyword (str): The keyword to search for in column names. Default is "quantity".
+        """
         # Select columns that contain the keyword
         keyword_cols = [col for col in self.df_agros.columns if keyword in col]
         keyword_df = self.df_agros[keyword_cols]
