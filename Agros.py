@@ -138,9 +138,9 @@ class AgrosClass:
                 plt.ylabel("Output Quantity by Type (Billions)")
             if normalize is True:
                 plt.stackplot(plot_df["Year"],
-                              (plot_df["crop_output_quantity"] / plot_df["output_quantity"]) * 100,
-                              (plot_df["animal_output_quantity"] / plot_df["output_quantity"]) * 100,
-                              (plot_df["fish_output_quantity"] / plot_df["output_quantity"]) * 100)
+                              (plot_df["crop_output_quantity"] /plot_df["output_quantity"]) *100,
+                              (plot_df["animal_output_quantity"]/plot_df["output_quantity"]) *100,
+                              (plot_df["fish_output_quantity"] /plot_df["output_quantity"]) *100)
                 plt.ylabel("% of Output by Type")
 
             plt.xlabel("Year")
