@@ -8,12 +8,15 @@ import numpy as np
 import seaborn as sns
 from matplotlib import pyplot as plt
 
+
 class AgrosClass:
     """
     A class that downloads a CSV file from a given URL and saves it in a local directory,
     and then loads it into a pandas DataFrame.
     """
-    def __init__(self, url='https://raw.githubusercontent.com/owid/owid-datasets/master/datasets/Agricultural%20total%20factor%20productivity%20(USDA)/Agricultural%20total%20factor%20productivity%20(USDA).csv'):
+
+    def __init__(self,
+                 url='https://raw.githubusercontent.com/owid/owid-datasets/master/datasets/Agricultural%20total%20factor%20productivity%20(USDA)/Agricultural%20total%20factor%20productivity%20(USDA).csv'):
         """
         Initializes the DataDownloader instance.
 
@@ -55,6 +58,7 @@ class AgrosClass:
 
         df_agros = pd.read_csv(file_path)
         return df_agros
+
     def countries_list(self):
         """
         Returns all distinct entries in the countries column of the 
@@ -74,22 +78,23 @@ class AgrosClass:
         """
         countries = list(self.df_agros["Entity"].unique())
         non_countries = ["Central Africa", "Central America",
-                "Central Asia", "Central Europe",
-                 "Developed Asia", "Developed Countries",
-                 "East Africa", "Eastern Europe", "Europe",
-                 "Former Soviet Union", "High income", 
-                 "Horn of Africa", "Latin America and the Caribbean",
-                 "Least developed countries", "Low income",
-                 "Lower-middle income", "North Africa", "North America",
-                 "Northeast Asia", "Northern Europe", "Oceania",
-                 "Pacific", "Sahel", "Serbia and Montenegro",
-                 "World", "Western Europe", "West Asia",
-                 "West Africa", "Western Europe",
-                 "Upper-middle income", "Sub-Saharan Africa",
-                 "Southern Europe", "Southern Africa", "Southern Asia"]
+                         "Central Asia", "Central Europe",
+                         "Developed Asia", "Developed Countries",
+                         "East Africa", "Eastern Europe", "Europe",
+                         "Former Soviet Union", "High income",
+                         "Horn of Africa", "Latin America and the Caribbean",
+                         "Least developed countries", "Low income",
+                         "Lower-middle income", "North Africa", "North America",
+                         "Northeast Asia", "Northern Europe", "Oceania",
+                         "Pacific", "Sahel", "Serbia and Montenegro",
+                         "World", "Western Europe", "West Asia",
+                         "West Africa", "Western Europe",
+                         "Upper-middle income", "Sub-Saharan Africa",
+                         "Southern Europe", "Southern Africa", "Southern Asia"]
         cleaned_countries = [i for i in countries if i not in non_countries]
         return cleaned_countries
-    def area_chart (self, country:str, normalize:bool):
+
+    def area_chart(self, country: str, normalize: bool):
         """
         Plots an area chart tracking the evolution of output quantity
         segmented by type (crop, animal and fish) over time. A
@@ -117,39 +122,39 @@ class AgrosClass:
         """
         sns.set_theme()
         output_df = self.df_agros[["Entity",
-                                "Year",
-                                "output_quantity",
-                                "crop_output_quantity",
-                                "animal_output_quantity",
-                                "fish_output_quantity"]]
+                                   "Year",
+                                   "output_quantity",
+                                   "crop_output_quantity",
+                                   "animal_output_quantity",
+                                   "fish_output_quantity"]]
 
         if country in self.countries_list():
-            plot_df = output_df[output_df["Entity"]==country]
+            plot_df = output_df[output_df["Entity"] == country]
             if normalize is False:
                 plt.stackplot(plot_df["Year"],
-                              plot_df["crop_output_quantity"]/10**9,
-                              plot_df["animal_output_quantity"]/10**9,
-                              plot_df["fish_output_quantity"]/10**9)
+                              plot_df["crop_output_quantity"] / 10 ** 9,
+                              plot_df["animal_output_quantity"] / 10 ** 9,
+                              plot_df["fish_output_quantity"] / 10 ** 9)
                 plt.ylabel("Output Quantity by Type (Billions)")
             if normalize is True:
                 plt.stackplot(plot_df["Year"],
-                              (plot_df["crop_output_quantity"]/plot_df["output_quantity"])*100,
-                              (plot_df["animal_output_quantity"]/plot_df["output_quantity"])*100,
-                              (plot_df["fish_output_quantity"]/plot_df["output_quantity"])*100)
+                              (plot_df["crop_output_quantity"] / plot_df["output_quantity"]) * 100,
+                              (plot_df["animal_output_quantity"] / plot_df["output_quantity"]) * 100,
+                              (plot_df["fish_output_quantity"] / plot_df["output_quantity"]) * 100)
                 plt.ylabel("% of Output by Type")
 
             plt.xlabel("Year")
             plt.legend(["Crop", "Animal", "Fish"])
         elif country in [None, "World"]:
             plot_df = pd.DataFrame()
-            plot_df["year_total"] = output_df[["output_quantity", "Year"]]\
-            .groupby(["Year"]).sum()/10**9
-            plot_df["crop_total"] = output_df[["crop_output_quantity", "Year"]]\
-            .groupby(["Year"]).sum()/10**9
-            plot_df["animal_total"] = output_df[["animal_output_quantity", "Year"]]\
-            .groupby(["Year"]).sum()/10**9
-            plot_df["fish_total"] = output_df[["fish_output_quantity", "Year"]]\
-            .groupby(["Year"]).sum()/10**9
+            plot_df["year_total"] = output_df[["output_quantity", "Year"]] \
+                                        .groupby(["Year"]).sum() / 10 ** 9
+            plot_df["crop_total"] = output_df[["crop_output_quantity", "Year"]] \
+                                        .groupby(["Year"]).sum() / 10 ** 9
+            plot_df["animal_total"] = output_df[["animal_output_quantity", "Year"]] \
+                                          .groupby(["Year"]).sum() / 10 ** 9
+            plot_df["fish_total"] = output_df[["fish_output_quantity", "Year"]] \
+                                        .groupby(["Year"]).sum() / 10 ** 9
             if normalize is False:
                 plt.stackplot(output_df["Year"].unique(),
                               plot_df["crop_total"],
@@ -158,33 +163,37 @@ class AgrosClass:
                 plt.ylabel("Output Quantity by Type (Billions)")
             if normalize is True:
                 plt.stackplot(output_df["Year"].unique(),
-                              (plot_df["crop_total"]\
-                               /plot_df["year_total"])*100,
-                              (plot_df["animal_total"]\
-                               /plot_df["year_total"])*100,
-                              (plot_df["fish_total"]\
-                               /plot_df["year_total"])*100)
+                              (plot_df["crop_total"] \
+                               / plot_df["year_total"]) * 100,
+                              (plot_df["animal_total"] \
+                               / plot_df["year_total"]) * 100,
+                              (plot_df["fish_total"] \
+                               / plot_df["year_total"]) * 100)
                 plt.ylabel("% of Output by Type")
             plt.xlabel("Year")
             plt.legend(["Crop", "Animal", "Fish"])
         else:
             raise ValueError("Inserted Country is not in Dataset")
-    def __gapminder__(year):
+
+    def __gapminder__(self, year):
         """
         This method plots a scatter plot of fertilizer_quantity vs 
         output_quantity with the size of each dot determined
         by the Total factor productivity , for a given year.
 
-        :param year: Year of the harvest. Used for the scatter plot.
-        :type year: int
-        :raises TypeError: In case year is not an integer.
+        Parameters
+        ---------------
+        year (int): Year of the harvest. Used for the scatter plot.
+
+         Returns
+        ---------------
+        None
         """
 
         if not isinstance(year, int):
             raise TypeError("Year must be an integer.")
 
-        agriculture_df = pd.read_csv("downloads/agriculture_dataset.csv")
-        agriculture_filtered_df = agriculture_df[agriculture_df['Year'] == year]
+        agriculture_filtered_df = self.df_agros[self.df_agros['Year'] == year]
 
         # Plot the scatter plot
         fig, ax = plt.subplots()
@@ -194,8 +203,9 @@ class AgrosClass:
         ax.set_xlabel('Fertilizer Quantity')
         ax.set_ylabel('Output Quantity')
         ax.set_title(f'Crops Production in {year}')
-        plt.show()
-    def corr_matrix(self, keyword = "quantity"):
+        fig.show()
+
+    def corr_matrix(self, keyword="quantity"):
         """
         Calculates and displays a correlation matrix heatmap for the columns in
         df_agros that contain the specified keyword in their column name.
@@ -224,6 +234,7 @@ class AgrosClass:
         corr_heatmap.set_yticklabels(corr_heatmap.get_yticklabels(), fontsize=7)
 
         plt.show()
+
     def method5(self, countries):
         """
         Receives a list of countries or a single country as input and creates a plot of the
@@ -242,9 +253,9 @@ class AgrosClass:
         try:
             if isinstance(countries, list):
                 df_countries = self.df_agros[self.df_agros['Entity'].isin(countries)]
-                total_output = df_countries.groupby(['Entity', 'Year'])['output_quantity']\
+                total_output = df_countries.groupby(['Entity', 'Year'])['output_quantity'] \
                     .sum().reset_index()
-                #Create the plot for each country
+                # Create the plot for each country
                 plt.figure(figsize=(10, 6))
                 ax_output = sns.lineplot(x='Year', y='output_quantity', \
                                          hue='Entity', data=total_output)
@@ -254,7 +265,7 @@ class AgrosClass:
             elif isinstance(countries, str):
                 df_country = self.df_agros[self.df_agros['Entity'] == countries]
                 total_output = df_country.groupby('Year')['output_quantity'].sum().reset_index()
-                #Create the plot for each country
+                # Create the plot for each country
                 plt.figure(figsize=(10, 6))
                 ax_output = sns.lineplot(x='Year', y='output_quantity', data=total_output)
                 ax_output.set(xlabel='Year', ylabel='Output Quantity')
@@ -272,8 +283,9 @@ class AgrosClass:
             print("Plot created successfully")
         finally:
             print("Execution complete\n")
-#AgrosClass.__gapminder__(2014)
-#dd = AgrosClass()
-#print(dd.df_agros.head())
-#dd.method5(["Germany", "France", "Italy"])
-#corr_matrix = AgrosClass.corr_matrix(dd)
+
+dd = AgrosClass()
+dd.__gapminder__(2014)
+# print(dd.df_agros.head())
+# dd.method5(["Germany", "France", "Italy"])
+# corr_matrix = AgrosClass.corr_matrix(dd)
