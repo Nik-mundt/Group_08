@@ -208,7 +208,7 @@ class AgrosClass:
         corr_df = pd.DataFrame(correlation_matrix)
 
         mask = np.triu(np.ones_like(correlation_matrix, dtype=bool))
-        corr_heatmap = sns.heatmap(corr_df, cmap="YlGnBu", annot=True, annot_kws={"size": 7, "color": "black"}, mask=mask)
+        corr_heatmap = sns.heatmap(corr_df, cmap="Greens", annot=True, annot_kws={"size": 7, "color": "black"}, mask=mask)
         corr_heatmap.set_xticklabels(corr_heatmap.get_xticklabels(), fontsize=7)
         corr_heatmap.set_yticklabels(corr_heatmap.get_yticklabels(), fontsize=7)
 
