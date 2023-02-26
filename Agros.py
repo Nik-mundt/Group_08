@@ -235,7 +235,7 @@ class AgrosClass:
 
         plt.show()
 
-    def method5(self, countries):
+    def output_graph(self, countries):
         """
         Receives a list of countries or a single country as input and creates a plot of the
         total output quantity over time for the selected countries.
@@ -261,7 +261,6 @@ class AgrosClass:
                                          hue='Entity', data=total_output)
                 ax_output.set(xlabel='Year', ylabel='Output Quantity')
                 ax_output.legend(loc='upper left', bbox_to_anchor=(1, 1))
-                plt.show()
             elif isinstance(countries, str):
                 df_country = self.df_agros[self.df_agros['Entity'] == countries]
                 total_output = df_country.groupby('Year')['output_quantity'].sum().reset_index()
@@ -270,22 +269,17 @@ class AgrosClass:
                 ax_output = sns.lineplot(x='Year', y='output_quantity', data=total_output)
                 ax_output.set(xlabel='Year', ylabel='Output Quantity')
                 ax_output.legend([countries], loc='upper left', bbox_to_anchor=(1, 1))
-                plt.show()
             else:
                 raise ValueError("Input should be a string or a list of strings")
         except ValueError as val_err:
             print(val_err)
-        except FileNotFoundError:
-            print("File not found")
-        except Exception as ex:
-            print(f"An error occurred: {ex}")
         else:
             print("Plot created successfully")
         finally:
-            print("Execution complete\n")
+            plt.show()
 
-dd = AgrosClass()
-dd.__gapminder__(2014)
+#dd = AgrosClass()
+#dd.__gapminder__(2014)
 # print(dd.df_agros.head())
-# dd.method5(["Germany", "France", "Italy"])
+#dd.output_graph(["Germany", "France", "Italy"])
 # corr_matrix = AgrosClass.corr_matrix(dd)
