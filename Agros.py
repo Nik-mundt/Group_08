@@ -192,18 +192,19 @@ class AgrosClass:
 
         if not isinstance(year, int):
             raise TypeError("Year must be an integer.")
-
-        agriculture_filtered_df = self.df_agros[self.df_agros['Year'] == year]
+        cleaned_countries = self.countries_list()
+        agriculture_filtered_df = self.df_agros.loc[(self.df_agros['Year'] == year)
+                                                    & self.df_agros["Entity"].isin(cleaned_countries)]
 
         # Plot the scatter plot
-        fig, ax = plt.subplots()
+        fig_plot, ax = plt.subplots()
         ax.scatter(agriculture_filtered_df['fertilizer_quantity'],
                    agriculture_filtered_df['output_quantity'],
                    s=agriculture_filtered_df['tfp'], alpha=0.6)
         ax.set_xlabel('Fertilizer Quantity')
         ax.set_ylabel('Output Quantity')
         ax.set_title(f'Crops Production in {year}')
-        fig.show()
+        fig_plot.show()
 
     def corr_matrix(self, keyword="quantity"):
         """
@@ -278,8 +279,8 @@ class AgrosClass:
         finally:
             plt.show()
 
-#dd = AgrosClass()
-#dd.__gapminder__(2014)
+dd = AgrosClass()
+dd.__gapminder__(2014)
 # print(dd.df_agros.head())
 #dd.output_graph(["Germany", "France", "Italy"])
 # corr_matrix = AgrosClass.corr_matrix(dd)
