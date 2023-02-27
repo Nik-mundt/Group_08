@@ -276,8 +276,9 @@ class AgrosClass:
             Displays a heatmap of the correlation matrix
         """
         # Select columns that contain the keyword
-        keyword_cols = [col for col in self.df_agros.columns if keyword in col]
-        keyword_df = self.df_agros[keyword_cols]
+        only_countries_df = self.df_agros[self.df_agros['Entity'].isin(self.countries_list())]
+        keyword_cols = [col for col in only_countries_df.columns if keyword in col]
+        keyword_df = only_countries_df[keyword_cols]
 
         # Calculate correlation matrix
         correlation_matrix = keyword_df.corr()
