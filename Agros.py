@@ -333,7 +333,7 @@ class AgrosClass:
             ax_output.legend(loc='upper left', bbox_to_anchor=(1, 1))
             plt.show()
         elif isinstance(countries, str):
-            if country[0].isupper() is False:
+            if countries[0].isupper() is False:
                 raise ValueError("All countries should start with a capital letter. You wrote \
                                      "+lowercase+ " instead of "+ uppercase)
             df_country = self.df_agros[self.df_agros['Entity'] == countries]
