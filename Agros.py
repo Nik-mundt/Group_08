@@ -1,5 +1,8 @@
 """
-Docstring for the file
+Defines class "AgrosClass" which downloads the necessary dataset
+and reads it as a Pandas DataFrame and retains it as an attribute.
+Further, the class has 6 methods which facilitate the analysis
+of data for our final Python Notebook.
 """
 import urllib.request
 import os
@@ -11,10 +14,46 @@ from matplotlib import pyplot as plt
 
 class AgrosClass:
     """
-    A class that downloads a CSV file from a given URL and saves it in a local directory,
-    and then loads it into a pandas DataFrame.
-    """
+    Downloads a CSV file from a given URL, saves it in
+    a local folder, and reads it into a pandas DataFrame
+    that is an attribute of the class. The CSV is stored
+    in a "downloads" folder in the file's directory. If the
+    folder does not exist, the class automatically creates
+    it.
 
+    The class downloads the USDA's Agricultural Total Factor
+    Productivity dataset by default, but a different URL can be
+    passed as an argument if necessary. A set of methods can
+    be used to analyze the data visually.
+
+    Attributes
+    ----------
+    directory:
+        Directory of the downloads folder
+    df_agros: DataFrame
+        DataFrame containing the downloaded CSV
+
+    Methods
+    --------
+    download_and_read_file()
+        Downloads and reads the CSV from URL.
+        Creates downloads directory if necessary.
+    countries_list()
+        Returns a list of all countries in the dataset.
+    area_chart()
+        Plots an area chart displaying the composition
+        of a country's output segmented by output type.
+    __gapminder__()
+        Generates a scatter plot displaying the relationship
+        between fertilizer use and output for a given year.
+        Mark size represents factor productivity.
+    corr_matrix()
+        Calculates and displays a correlation matrix heatmap for
+        the columns in the DataFrame containing a specified keyword.
+    output_graph()
+        Generates a plot of total output over time for a selected
+        country or list of countries.
+    """
     def __init__(self,
                  url='https://raw.githubusercontent.com/owid/owid-datasets/master/datasets/Agricultural%20total%20factor%20productivity%20(USDA)/Agricultural%20total%20factor%20productivity%20(USDA).csv'):
         """
@@ -49,6 +88,7 @@ class AgrosClass:
 
         if os.path.exists(file_path):
             print(f"{file_name} already exists in {self.directory}")
+
         else:
             if not os.path.exists(self.directory):
                 os.makedirs(self.directory)
@@ -61,16 +101,16 @@ class AgrosClass:
 
     def countries_list(self):
         """
-        Returns all distinct entries in the countries column of the 
+        Returns all distinct entries in the countries column of the
         class' dataframe in the form of a list. Removes any occurrence
         of macro-regions or income-based geographical distributions and only
         shows country names.
-        
+
         Parameters
         ---------------
         self
         Refers to the class to which the module belongs to.
-        
+
         Returns
         ---------------
         countries: list
@@ -104,21 +144,22 @@ class AgrosClass:
         the "normalize" argument is set to "True", the figures are no
         longer displayed in absolute terms, but in percentage of the
         total output.
-           
+
         Parameters
         ---------------
         country: str
         The country for which data is being plotted, passing "World"
         or None will yield globally aggregated data.
-        
+
         normalize: bool
         A boolean that signals whether data should be presented
         as a percentage of total output (when True) or in absolute
         units (when False).
-            
+
         Returns
         ---------------
-        Plots the figure requested.
+        None
+            Plots the figure requested.
         """
         sns.set_theme()
         output_df = self.df_agros[["Entity",
@@ -136,15 +177,19 @@ class AgrosClass:
                               plot_df["animal_output_quantity"] / 10 ** 9,
                               plot_df["fish_output_quantity"] / 10 ** 9)
                 plt.ylabel("Output Quantity by Type (Billions)")
+                plt.title(f"Output Quantity by Output Type Over Time ({country})")
+
             if normalize is True:
                 plt.stackplot(plot_df["Year"],
                               (plot_df["crop_output_quantity"] /plot_df["output_quantity"]) *100,
                               (plot_df["animal_output_quantity"]/plot_df["output_quantity"]) *100,
                               (plot_df["fish_output_quantity"] /plot_df["output_quantity"]) *100)
                 plt.ylabel("% of Output by Type")
+                plt.title(f"Share of Total Output by Output Type ({country})")
 
             plt.xlabel("Year")
             plt.legend(["Crop", "Animal", "Fish"])
+
         elif country in [None, "World"]:
             plot_df = pd.DataFrame()
             plot_df["year_total"] = output_df[["output_quantity", "Year"]] \
@@ -155,12 +200,15 @@ class AgrosClass:
                                           .groupby(["Year"]).sum() / 10 ** 9
             plot_df["fish_total"] = output_df[["fish_output_quantity", "Year"]] \
                                         .groupby(["Year"]).sum() / 10 ** 9
+
             if normalize is False:
                 plt.stackplot(output_df["Year"].unique(),
                               plot_df["crop_total"],
                               plot_df["crop_total"],
                               plot_df["fish_total"])
                 plt.ylabel("Output Quantity by Type (Billions)")
+                plt.title("Output Quantity by Output Type Over Time (World)")
+
             if normalize is True:
                 plt.stackplot(output_df["Year"].unique(),
                               (plot_df["crop_total"] \
@@ -170,40 +218,47 @@ class AgrosClass:
                               (plot_df["fish_total"] \
                                / plot_df["year_total"]) * 100)
                 plt.ylabel("% of Output by Type")
+                plt.title("Share of Total Quantity by Output Type Over Time\
+                (World)")
+
             plt.xlabel("Year")
             plt.legend(["Crop", "Animal", "Fish"])
+
         else:
             raise ValueError("Inserted Country is not in Dataset")
 
     def __gapminder__(self, year):
         """
-        This method plots a scatter plot of fertilizer_quantity vs 
+        This method plots a scatter plot of fertilizer_quantity vs
         output_quantity with the size of each dot determined
-        by the Total factor productivity , for a given year.
+        by the total factor productivity, for a given year.
 
         Parameters
         ---------------
         year (int): Year of the harvest. Used for the scatter plot.
 
-         Returns
+        Returns
         ---------------
         None
+            Displays a gapminder-style scatter plot between fertilizer
+            quantity and output quantity.
         """
 
         if not isinstance(year, int):
             raise TypeError("Year must be an integer.")
         cleaned_countries = self.countries_list()
         agriculture_filtered_df = self.df_agros.loc[(self.df_agros['Year'] == year)
-                                                    & self.df_agros["Entity"].isin(cleaned_countries)]
+                                                    & self.df_agros["Entity"]\
+                                                    .isin(cleaned_countries)]
 
         # Plot the scatter plot
-        fig_plot, ax = plt.subplots()
-        ax.scatter(agriculture_filtered_df['fertilizer_quantity'],
+        fig_plot, ax_plot = plt.subplots()
+        ax_plot.scatter(agriculture_filtered_df['fertilizer_quantity'],
                    agriculture_filtered_df['output_quantity'],
                    s=agriculture_filtered_df['tfp'], alpha=0.6)
-        ax.set_xlabel('Fertilizer Quantity')
-        ax.set_ylabel('Output Quantity')
-        ax.set_title(f'Crops Production in {year}')
+        ax_plot.set_xlabel('Fertilizer Quantity')
+        ax_plot.set_ylabel('Output Quantity')
+        ax_plot.set_title(f'Crops Production in {year}')
         fig_plot.show()
 
     def corr_matrix(self, keyword="quantity"):
@@ -244,12 +299,11 @@ class AgrosClass:
         ---------------
         countries: str, list of str
             Countries of which a plot is created
-            
+
         Returns
         ---------------
         None
             Displays a graph of the selected countries
-
         """
         try:
             if isinstance(countries, list):
@@ -278,9 +332,3 @@ class AgrosClass:
             print("Plot created successfully")
         finally:
             plt.show()
-
-dd = AgrosClass()
-dd.__gapminder__(2014)
-# print(dd.df_agros.head())
-#dd.output_graph(["Germany", "France", "Italy"])
-# corr_matrix = AgrosClass.corr_matrix(dd)
