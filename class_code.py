@@ -289,7 +289,7 @@ class AgrosClass:
                                    annot_kws={"size": 7, "color": "black"}, mask=mask)
         corr_heatmap.set_xticklabels(corr_heatmap.get_xticklabels(), fontsize=7)
         corr_heatmap.set_yticklabels(corr_heatmap.get_yticklabels(), fontsize=7)
-
+        plt.title(f"Correlation Matrix of Columns containing {keyword}",fontsize=15)
         plt.show()
 
     def output_graph(self, countries):
