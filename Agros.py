@@ -279,8 +279,8 @@ class AgrosClass:
         finally:
             plt.show()
 
-dd = AgrosClass()
+#dd = AgrosClass()
 #dd.__gapminder__(2014)
 # print(dd.df_agros.head())
 #dd.output_graph(["Germany", "France", "Italy"])
-AgrosClass.corr_matrix(dd)
+#AgrosClass.corr_matrix(dd)
