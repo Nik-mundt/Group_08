@@ -305,30 +305,43 @@ class AgrosClass:
         None
             Displays a graph of the selected countries
         """
-        try:
-            if isinstance(countries, list):
-                df_countries = self.df_agros[self.df_agros['Entity'].isin(countries)]
-                total_output = df_countries.groupby(['Entity', 'Year'])['output_quantity'] \
-                    .sum().reset_index()
-                # Create the plot for each country
-                plt.figure(figsize=(10, 6))
-                ax_output = sns.lineplot(x='Year', y='output_quantity', \
-                                         hue='Entity', data=total_output)
-                ax_output.set(xlabel='Year', ylabel='Output Quantity')
-                ax_output.legend(loc='upper left', bbox_to_anchor=(1, 1))
-            elif isinstance(countries, str):
-                df_country = self.df_agros[self.df_agros['Entity'] == countries]
-                total_output = df_country.groupby('Year')['output_quantity'].sum().reset_index()
-                # Create the plot for each country
-                plt.figure(figsize=(10, 6))
-                ax_output = sns.lineplot(x='Year', y='output_quantity', data=total_output)
-                ax_output.set(xlabel='Year', ylabel='Output Quantity')
-                ax_output.legend([countries], loc='upper left', bbox_to_anchor=(1, 1))
-            else:
-                raise ValueError("Input should be a string or a list of strings")
-        except ValueError as val_err:
-            print(val_err)
-        else:
-            print("Plot created successfully")
-        finally:
+        if isinstance(countries, list):
+            for country in countries:
+                #check if each input is a string
+                if not isinstance(country, str):
+                    raise ValueError("Input should be a string or a list of strings")
+                #verify that country exists in database (not being case sensitive)
+                country_upper = country[0].upper()+country[1:]
+                if country_upper not in self.df_agros['Entity'].unique():
+                    raise ValueError(country+" is not a valid country")
+                #check if country starts with a capital letter
+                if country[0].isupper() is False:
+                    lowercase = country[0]+country[1:]
+                    uppercase = country[0].upper()+country[1:]
+                    raise ValueError("All countries should start with a capital letter. You wrote \
+                                     "+lowercase+ " instead of "+ uppercase)
+            #filter countries
+            df_countries = self.df_agros[self.df_agros['Entity'].isin(countries)]
+            total_output = df_countries.groupby(['Entity', 'Year'])['output_quantity'] \
+                .sum().reset_index()
+            # Create the plot for each country
+            plt.figure(figsize=(10, 6))
+            ax_output = sns.lineplot(x='Year', y='output_quantity', \
+                                        hue='Entity', data=total_output)
+            ax_output.set(xlabel='Year', ylabel='Output Quantity', title="Total output per Year")
+            ax_output.legend(loc='upper left', bbox_to_anchor=(1, 1))
             plt.show()
+        elif isinstance(countries, str):
+            if country[0].isupper() is False:
+                raise ValueError("All countries should start with a capital letter. You wrote \
+                                     "+lowercase+ " instead of "+ uppercase)
+            df_country = self.df_agros[self.df_agros['Entity'] == countries]
+            total_output = df_country.groupby('Year')['output_quantity'].sum().reset_index()
+            # Create the plot for each country
+            plt.figure(figsize=(10, 6))
+            ax_output = sns.lineplot(x='Year', y='output_quantity', data=total_output)
+            ax_output.set(xlabel='Year', ylabel='Output Quantity', title="Total output per Year")
+            ax_output.legend([countries], loc='upper left', bbox_to_anchor=(1, 1))
+            plt.show()
+        else:
+            raise ValueError("Input should be a string or a list of strings")
