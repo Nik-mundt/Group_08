@@ -88,6 +88,7 @@ class AgrosClass:
 
         if os.path.exists(file_path):
             print(f"{file_name} already exists in {self.directory}")
+
         else:
             if not os.path.exists(self.directory):
                 os.makedirs(self.directory)
@@ -176,6 +177,7 @@ class AgrosClass:
                               plot_df["animal_output_quantity"] / 10 ** 9,
                               plot_df["fish_output_quantity"] / 10 ** 9)
                 plt.ylabel("Output Quantity by Type (Billions)")
+                plt.title(f"Output Quantity by Output Type Over Time ({country})")
 
             if normalize is True:
                 plt.stackplot(plot_df["Year"],
@@ -183,6 +185,7 @@ class AgrosClass:
                               (plot_df["animal_output_quantity"]/plot_df["output_quantity"]) *100,
                               (plot_df["fish_output_quantity"] /plot_df["output_quantity"]) *100)
                 plt.ylabel("% of Output by Type")
+                plt.title(f"Share of Total Output by Output Type ({country})")
 
             plt.xlabel("Year")
             plt.legend(["Crop", "Animal", "Fish"])
@@ -204,6 +207,7 @@ class AgrosClass:
                               plot_df["crop_total"],
                               plot_df["fish_total"])
                 plt.ylabel("Output Quantity by Type (Billions)")
+                plt.title("Output Quantity by Output Type Over Time (World)")
 
             if normalize is True:
                 plt.stackplot(output_df["Year"].unique(),
@@ -214,6 +218,8 @@ class AgrosClass:
                               (plot_df["fish_total"] \
                                / plot_df["year_total"]) * 100)
                 plt.ylabel("% of Output by Type")
+                plt.title("Share of Total Quantity by Output Type Over Time\
+                (World)")
 
             plt.xlabel("Year")
             plt.legend(["Crop", "Animal", "Fish"])
@@ -246,13 +252,13 @@ class AgrosClass:
                                                     .isin(cleaned_countries)]
 
         # Plot the scatter plot
-        fig_plot, ax = plt.subplots()
-        ax.scatter(agriculture_filtered_df['fertilizer_quantity'],
+        fig_plot, ax_plot = plt.subplots()
+        ax_plot.scatter(agriculture_filtered_df['fertilizer_quantity'],
                    agriculture_filtered_df['output_quantity'],
                    s=agriculture_filtered_df['tfp'], alpha=0.6)
-        ax.set_xlabel('Fertilizer Quantity')
-        ax.set_ylabel('Output Quantity')
-        ax.set_title(f'Crops Production in {year}')
+        ax_plot.set_xlabel('Fertilizer Quantity')
+        ax_plot.set_ylabel('Output Quantity')
+        ax_plot.set_title(f'Crops Production in {year}')
         fig_plot.show()
 
     def corr_matrix(self, keyword="quantity"):
@@ -326,9 +332,3 @@ class AgrosClass:
             print("Plot created successfully")
         finally:
             plt.show()
-
-dd = AgrosClass()
-dd.__gapminder__(2014)
-# print(dd.df_agros.head())
-#dd.output_graph(["Germany", "France", "Italy"])
-# corr_matrix = AgrosClass.corr_matrix(dd)
