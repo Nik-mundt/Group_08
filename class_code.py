@@ -10,7 +10,6 @@ import pandas as pd
 import numpy as np
 import seaborn as sns
 from matplotlib import pyplot as plt
-import plotly.express as px
 
 
 class AgrosClass:
@@ -131,9 +130,7 @@ class AgrosClass:
                          "World", "Western Europe", "West Asia",
                          "West Africa", "Western Europe",
                          "Upper-middle income", "Sub-Saharan Africa",
-                         "Southern Europe", "Southern Africa", "Southern Asia",
-                         "Developed countries", "Asia", "South Asia", "Southeast Asia", 
-                         "South Asia"]
+                         "Southern Europe", "Southern Africa", "Southern Asia"]
         cleaned_countries = [i for i in countries if i not in non_countries]
         return cleaned_countries
 
@@ -234,21 +231,25 @@ class AgrosClass:
         """
         This method plots a scatter plot of fertilizer_quantity vs
         output_quantity with the size of each dot determined
-        by the Total factor productivity , for a given year.
+        by the total factor productivity, for a given year.
 
         Parameters
         ---------------
         year (int): Year of the harvest. Used for the scatter plot.
 
-         Returns
+        Returns
         ---------------
         None
+            Displays a gapminder-style scatter plot between fertilizer
+            quantity and output quantity.
         """
 
         if not isinstance(year, int):
             raise TypeError("Year must be an integer.")
-
-        agriculture_filtered_df = self.df_agros[self.df_agros['Year'] == year]
+        cleaned_countries = self.countries_list()
+        agriculture_filtered_df = self.df_agros.loc[(self.df_agros['Year'] == year)
+                                                    & self.df_agros["Entity"]\
+                                                    .isin(cleaned_countries)]
 
         # Plot the scatter plot
         fig_plot, ax_plot = plt.subplots()
@@ -306,6 +307,7 @@ class AgrosClass:
         ---------------
         None
             Displays a graph of the selected countries
+
         """
         if isinstance(countries, list):
             for country in countries:
@@ -330,8 +332,9 @@ class AgrosClass:
             plt.figure(figsize=(10, 6))
             ax_output = sns.lineplot(x='Year', y='output_quantity', \
                                         hue='Entity', data=total_output)
-            ax_output.set(xlabel='Year', ylabel='Output Quantity', title="Total output per Year")
+            ax_output.set(xlabel='Year', ylabel='Output Quantity')
             ax_output.legend(loc='upper left', bbox_to_anchor=(1, 1))
+            ax_output.set_title(f'Total output per year of the follwing countries: {countries}')
             plt.show()
         elif isinstance(countries, str):
             if countries[0].isupper() is False:
@@ -342,8 +345,9 @@ class AgrosClass:
             # Create the plot for each country
             plt.figure(figsize=(10, 6))
             ax_output = sns.lineplot(x='Year', y='output_quantity', data=total_output)
-            ax_output.set(xlabel='Year', ylabel='Output Quantity', title="Total output per Year")
+            ax_output.set(xlabel='Year', ylabel='Output Quantity')
             ax_output.legend([countries], loc='upper left', bbox_to_anchor=(1, 1))
+            ax_output.set_title(f'Total output per year of the follwing country: {countries}')
             plt.show()
         else:
             raise ValueError("Input should be a string or a list of strings")
