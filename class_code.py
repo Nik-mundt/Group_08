@@ -10,6 +10,7 @@ import pandas as pd
 import numpy as np
 import seaborn as sns
 from matplotlib import pyplot as plt
+import plotly.express as px
 
 
 class AgrosClass:
@@ -253,15 +254,21 @@ class AgrosClass:
                                                     & self.df_agros["Entity"]\
                                                     .isin(cleaned_countries)]
 
-        # Plot the scatter plot
-        fig_plot, ax_plot = plt.subplots()
-        ax_plot.scatter(agriculture_filtered_df['fertilizer_quantity'],
-                   agriculture_filtered_df['output_quantity'],
-                   s=agriculture_filtered_df['tfp'], alpha=0.6)
-        ax_plot.set_xlabel('Fertilizer Quantity')
-        ax_plot.set_ylabel('Output Quantity')
-        ax_plot.set_title(f'Crops Production in {year}')
-        fig_plot.show()
+        # Create a scatter plot
+        fig = px.scatter(data_frame=agriculture_filtered_df,
+                 x="fertilizer_quantity",
+                 y="output_quantity",
+                 size="labor_quantity",
+                 hover_name="Entity",
+                 labels={
+                     "fertilizer_quantity": "Fertilizer Quantity",
+                     "output_quantity": "Output Quantity"
+                 },
+                 title=f"Gapminder Plot in {year}")
+
+        # Show plot
+        fig.show()
+
 
     def corr_matrix(self, keyword="quantity"):
         """
@@ -348,3 +355,6 @@ class AgrosClass:
             plt.show()
         else:
             raise ValueError("Input should be a string or a list of strings")
+
+Agros = AgrosClass()
+Agros.__gapminder__(2014)
