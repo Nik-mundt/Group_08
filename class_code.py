@@ -130,7 +130,9 @@ class AgrosClass:
                          "World", "Western Europe", "West Asia",
                          "West Africa", "Western Europe",
                          "Upper-middle income", "Sub-Saharan Africa",
-                         "Southern Europe", "Southern Africa", "Southern Asia"]
+                         "Southern Europe", "Southern Africa", "Southern Asia",
+                         "Developed countries", "Asia", "South Asia", "Southeast Asia", 
+                         "South Asia"]
         cleaned_countries = [i for i in countries if i not in non_countries]
         return cleaned_countries
 
