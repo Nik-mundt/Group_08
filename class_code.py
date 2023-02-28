@@ -255,12 +255,13 @@ class AgrosClass:
         fig_plot, ax_plot = plt.subplots()
         ax_plot.scatter(agriculture_filtered_df['fertilizer_quantity'],
                    agriculture_filtered_df['output_quantity'],
-                   s=agriculture_filtered_df['labor_quantity']/500, alpha=0.6)
+                   s = agriculture_filtered_df['labor_quantity']/500, alpha=0.6)
         ax_plot.set_xscale('log')
         ax_plot.set_xlabel('Fertilizer Quantity')
         ax_plot.set_ylabel('Output Quantity')
         fig_plot.legend("Size: Labor Quantity")
         ax_plot.set_title(f'Crops Production in {year}')
+        fig_plot.show()
 
 
     def corr_matrix(self, keyword="quantity"):
