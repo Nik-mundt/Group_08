@@ -131,7 +131,7 @@ class AgrosClass:
                          "West Africa", "Western Europe",
                          "Upper-middle income", "Sub-Saharan Africa",
                          "Southern Europe", "Southern Africa", "Southern Asia",
-                         "Developed countries", "Asia", "South Asia", "Southeast Asia", 
+                         "Developed countries", "Asia", "South Asia", "Southeast Asia",
                          "South Asia"]
         cleaned_countries = [i for i in countries if i not in non_countries]
         return cleaned_countries
@@ -257,11 +257,14 @@ class AgrosClass:
         fig_plot, ax_plot = plt.subplots()
         ax_plot.scatter(agriculture_filtered_df['fertilizer_quantity'],
                    agriculture_filtered_df['output_quantity'],
-                   s=agriculture_filtered_df['tfp'], alpha=0.6)
+                   s = agriculture_filtered_df['labor_quantity']/500, alpha=0.6)
+        ax_plot.set_xscale('log')
         ax_plot.set_xlabel('Fertilizer Quantity')
         ax_plot.set_ylabel('Output Quantity')
+        fig_plot.legend("Size: Labor Quantity")
         ax_plot.set_title(f'Crops Production in {year}')
         fig_plot.show()
+
 
     def corr_matrix(self, keyword="quantity"):
         """
@@ -307,6 +310,7 @@ class AgrosClass:
         ---------------
         None
             Displays a graph of the selected countries
+
         """
         if isinstance(countries, list):
             for country in countries:
@@ -331,8 +335,9 @@ class AgrosClass:
             plt.figure(figsize=(10, 6))
             ax_output = sns.lineplot(x='Year', y='output_quantity', \
                                         hue='Entity', data=total_output)
-            ax_output.set(xlabel='Year', ylabel='Output Quantity', title="Total output per Year")
+            ax_output.set(xlabel='Year', ylabel='Output Quantity')
             ax_output.legend(loc='upper left', bbox_to_anchor=(1, 1))
+            ax_output.set_title(f'Total output per year of the follwing countries: {countries}')
             plt.show()
         elif isinstance(countries, str):
             if countries[0].isupper() is False:
@@ -343,8 +348,9 @@ class AgrosClass:
             # Create the plot for each country
             plt.figure(figsize=(10, 6))
             ax_output = sns.lineplot(x='Year', y='output_quantity', data=total_output)
-            ax_output.set(xlabel='Year', ylabel='Output Quantity', title="Total output per Year")
+            ax_output.set(xlabel='Year', ylabel='Output Quantity')
             ax_output.legend([countries], loc='upper left', bbox_to_anchor=(1, 1))
+            ax_output.set_title(f'Total output per year of the follwing country: {countries}')
             plt.show()
         else:
             raise ValueError("Input should be a string or a list of strings")
