@@ -251,14 +251,15 @@ class AgrosClass:
         agriculture_filtered_df = self.df_agros[self.df_agros['Year'] == year]
 
         # Plot the scatter plot
-        fig, ax = plt.subplots()
-        ax.scatter(agriculture_filtered_df['fertilizer_quantity'],
+        fig_plot, ax_plot = plt.subplots()
+        ax_plot.scatter(agriculture_filtered_df['fertilizer_quantity'],
                    agriculture_filtered_df['output_quantity'],
-                   s=agriculture_filtered_df['labor_quantity']/1000, alpha=0.6)
-        ax.set_xlabel('Fertilizer Quantity')
-        ax.set_ylabel('Output Quantity')
-        ax.set_title(f'Crops Production in {year}')
-        fig.show()
+                   s=agriculture_filtered_df['labor_quantity']/500, alpha=0.6)
+        ax_plot.set_xscale('log')
+        ax_plot.set_xlabel('Fertilizer Quantity')
+        ax_plot.set_ylabel('Output Quantity')
+        fig_plot.legend("Size: Labor Quantity")
+        ax_plot.set_title(f'Crops Production in {year}')
 
 
     def corr_matrix(self, keyword="quantity"):
@@ -346,6 +347,3 @@ class AgrosClass:
             plt.show()
         else:
             raise ValueError("Input should be a string or a list of strings")
-
-Agros = AgrosClass()
-Agros.__gapminder__(2014)
