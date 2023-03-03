@@ -353,4 +353,4 @@ class AgrosClass:
             ax_output.set_title(f'Total output per year of the follwing country: {countries}')
             plt.show()
         else:
-            raise ValueError("Input should be a string or a list of strings")
+            raise ValueError("Input should be a string or a list of strings")    
