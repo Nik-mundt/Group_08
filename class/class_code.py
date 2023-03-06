@@ -43,7 +43,7 @@ class AgrosClass:
     area_chart()
         Plots an area chart displaying the composition
         of a country's output segmented by output type.
-    __gapminder__()
+    gapminder()
         Generates a scatter plot displaying the relationship
         between fertilizer use and output for a given year.
         Mark size represents factor productivity.
@@ -229,7 +229,7 @@ class AgrosClass:
         else:
             raise ValueError("Inserted Country is not in Dataset")
 
-    def __gapminder__(self, year):
+    def gapminder(self, year):
         """
         This method plots a scatter plot of fertilizer_quantity vs
         output_quantity with the size of each dot determined
