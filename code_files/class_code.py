@@ -43,7 +43,7 @@ class AgrosClass:
     area_chart()
         Plots an area chart displaying the composition
         of a country's output segmented by output type.
-    __gapminder__()
+    gapminder()
         Generates a scatter plot displaying the relationship
         between fertilizer use and output for a given year.
         Mark size represents factor productivity.
@@ -229,7 +229,7 @@ class AgrosClass:
         else:
             raise ValueError("Inserted Country is not in Dataset")
 
-    def __gapminder__(self, year):
+    def gapminder(self, year, log = True):
         """
         This method plots a scatter plot of fertilizer_quantity vs
         output_quantity with the size of each dot determined
@@ -238,6 +238,8 @@ class AgrosClass:
         Parameters
         ---------------
         year (int): Year of the harvest. Used for the scatter plot.
+        log (bool): Optional; If both axes should be put on a
+                    logarithmic scale or not. Defaults to True.
 
         Returns
         ---------------
@@ -258,9 +260,15 @@ class AgrosClass:
         ax_plot.scatter(agriculture_filtered_df['fertilizer_quantity'],
                    agriculture_filtered_df['output_quantity'],
                    s = agriculture_filtered_df['labor_quantity']/500, alpha=0.6)
-        ax_plot.set_xscale('log')
-        ax_plot.set_xlabel('Fertilizer Quantity')
-        ax_plot.set_ylabel('Output Quantity')
+        if log:
+            ax_plot.set_xscale('log')
+            ax_plot.set_yscale('log')
+            ax_plot.set_xlabel('Fertilizer Quantity (log Scale)')
+            ax_plot.set_ylabel('Output Quantity (log Scale)')
+        else:
+            ax_plot.set_xlabel('Fertilizer Quantity')
+            ax_plot.set_ylabel('Output Quantity')
+
         fig_plot.legend("Size: Labor Quantity")
         ax_plot.set_title(f'Crops Production in {year}')
         fig_plot.show()
@@ -353,4 +361,4 @@ class AgrosClass:
             ax_output.set_title(f'Total output per year of the follwing country: {countries}')
             plt.show()
         else:
-            raise ValueError("Input should be a string or a list of strings")    
+            raise ValueError("Input should be a string or a list of strings")
