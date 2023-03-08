@@ -6,6 +6,8 @@ of data for our final Python Notebook.
 """
 import urllib.request
 import os
+import folium
+import geopandas as gpd
 import pandas as pd
 import numpy as np
 import seaborn as sns
@@ -363,7 +365,7 @@ class AgrosClass:
         else:
             raise ValueError("Input should be a string or a list of strings")
 
-    def tfp_choro():
+    def tfp_choro(self):
         tfp_map = folium.Map()
 
         folium.Choropleth(geo_data = merged_df,
@@ -375,4 +377,3 @@ class AgrosClass:
                  fill_opacity = 0.65,
                  line_opacity = 0.5,
                  legend_name = "Total Factor Productivity").add_to(tfp_map)
-        
