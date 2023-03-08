@@ -5,10 +5,12 @@ Further, the class has 6 methods which facilitate the analysis
 of data for our final Python Notebook.
 """
 import urllib.request
+import requests
 import os
 import pandas as pd
 import numpy as np
 import seaborn as sns
+import geopandas as gpd
 from matplotlib import pyplot as plt
 
 
@@ -64,6 +66,8 @@ class AgrosClass:
         url (str): The URL from which to download the CSV file.
         """
         self.url = url
+        self.google_url = "https://docs.google.com/uc?export=download"
+        self.file_id = "1e8V2VfxVNqZirIXN_M1VZSWRIoMiUrzy"
         directory = 'downloads'
         current_directory = os.getcwd()
         downloads_directory = os.path.join(current_directory, directory)
@@ -71,7 +75,7 @@ class AgrosClass:
         if not os.path.exists(downloads_directory):
             os.makedirs(downloads_directory)
         self.directory = downloads_directory
-        self.df_agros = self.download_and_read_file()
+        self.df_agros, self.df_geo = self.download_and_read_file()
 
     def download_and_read_file(self):
         """
@@ -84,20 +88,34 @@ class AgrosClass:
         pandas.DataFrame: The loaded pandas DataFrame.
         """
         file_name = "agriculture_dataset.csv"
+        file_name2 = "ne_110m_admin_0_countries.zip"
         file_path = os.path.join(self.directory, file_name)
+        file_path2 = os.path.join(self.directory, file_name2)
 
         if os.path.exists(file_path):
             print(f"{file_name} already exists in {self.directory}")
-
         else:
             if not os.path.exists(self.directory):
                 os.makedirs(self.directory)
             print(f"Downloading {file_name}...")
             urllib.request.urlretrieve(self.url, file_path)
             print(f"{file_name} downloaded to {self.directory}")
-
+        if os.path.exists(file_path2):
+            print(f"{file_name2} already exists in {self.directory}")
+        else:
+            session = requests.Session()
+            response = session.get(self.google_url, params={'id': self.file_id}, stream=True)
+            CHUNK_SIZE = 32768
+            destination = self.directory + "/ne_110m_admin_0_countries.zip"
+            with open(destination, "wb") as f:
+                for chunk in response.iter_content(CHUNK_SIZE):
+                    if chunk:  # filter out keep-alive new chunks
+                        f.write(chunk)
+        
         df_agros = pd.read_csv(file_path)
-        return df_agros
+        df_geo = gpd.read_file(self.directory + "/ne_110m_admin_0_countries.zip!ne_110m_admin_0_countries.shp")
+
+        return df_agros, df_geo
 
     def countries_list(self):
         """
