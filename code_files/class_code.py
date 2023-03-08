@@ -6,6 +6,8 @@ of data for our final Python Notebook.
 """
 import urllib.request
 import os
+import folium
+import geopandas as gpd
 import pandas as pd
 import numpy as np
 import seaborn as sns
