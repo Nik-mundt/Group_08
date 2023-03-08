@@ -362,3 +362,17 @@ class AgrosClass:
             plt.show()
         else:
             raise ValueError("Input should be a string or a list of strings")
+
+    def tfp_choro():
+        tfp_map = folium.Map()
+
+        folium.Choropleth(geo_data = merged_df,
+                 name = "tfp choropleth",
+                 data = merged_df,
+                 columns = ["name", "tfp"],
+                 key_on = "feature.properties.name",
+                 fill_color = "YlGn",
+                 fill_opacity = 0.65,
+                 line_opacity = 0.5,
+                 legend_name = "Total Factor Productivity").add_to(tfp_map)
+        
