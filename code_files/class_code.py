@@ -87,35 +87,67 @@ class AgrosClass:
         ---------------
         pandas.DataFrame: The loaded pandas DataFrame.
         """
-        file_name = "agriculture_dataset.csv"
-        file_name2 = "ne_110m_admin_0_countries.zip"
-        file_path = os.path.join(self.directory, file_name)
-        file_path2 = os.path.join(self.directory, file_name2)
+        file_name_agriculture = "agriculture_dataset.csv"
+        file_name_countries = "ne_110m_admin_0_countries.zip"
+        file_path_agriculture = os.path.join(self.directory, file_name_agriculture)
+        file_path_countries = os.path.join(self.directory, file_name_countries)
 
-        if os.path.exists(file_path):
-            print(f"{file_name} already exists in {self.directory}")
+        if os.path.exists(file_path_agriculture):
+            print(f"{file_name_agriculture} already exists in {self.directory}")
         else:
             if not os.path.exists(self.directory):
                 os.makedirs(self.directory)
-            print(f"Downloading {file_name}...")
-            urllib.request.urlretrieve(self.url, file_path)
-            print(f"{file_name} downloaded to {self.directory}")
-        if os.path.exists(file_path2):
-            print(f"{file_name2} already exists in {self.directory}")
+            print(f"Downloading {file_name_agriculture}...")
+            urllib.request.urlretrieve(self.url, file_path_agriculture)
+            print(f"{file_name_agriculture} downloaded to {self.directory}")
+
+        if os.path.exists(file_path_countries):
+            print(f"{file_name_countries} already exists in {self.directory}")
         else:
+            print(f"Downloading {file_name_countries}...")
             session = requests.Session()
             response = session.get(self.google_url, params={'id': self.file_id}, stream=True)
+
+            token = self.get_confirm_token(response)
+
+            if token:
+                """
+                The value of 'confirm' is set to the value of token, 
+                which is the download confirmation token extracted from the response cookie.
+                """
+                params = {'id': self.file_id, 'confirm': token}
+                response = session.get(self.google_url, params=params, stream=True)
+
             CHUNK_SIZE = 32768
             destination = self.directory + "/ne_110m_admin_0_countries.zip"
+
             with open(destination, "wb") as f:
                 for chunk in response.iter_content(CHUNK_SIZE):
                     if chunk:  # filter out keep-alive new chunks
                         f.write(chunk)
+                print(f"{file_name_countries} downloaded to {self.directory}")
         
-        df_agros = pd.read_csv(file_path)
+        df_agros = pd.read_csv(file_path_agriculture)
         df_geo = gpd.read_file(self.directory + "/ne_110m_admin_0_countries.zip!ne_110m_admin_0_countries.shp")
 
         return df_agros, df_geo
+
+    def get_confirm_token(self, response):
+        """
+        Extracts the download confirmation token from the cookies of the response object.
+
+        Parameters:
+        ---------------
+        - response (requests.Response): The response object from the HTTP request.
+
+        Returns:
+        ---------------
+        - str or None: The value of the download warning token if it exists in the cookies, None otherwise.
+        """
+        for key, value in response.cookies.items():
+            if key.startswith('download_warning'):
+                return value
+        return None
 
     def countries_list(self):
         """
