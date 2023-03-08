@@ -362,3 +362,24 @@ class AgrosClass:
             plt.show()
         else:
             raise ValueError("Input should be a string or a list of strings")
+
+    def predictor(self, countries_list):
+        predicted_countries = []
+
+        if isinstance(countries_list, list):
+
+            if len(countries_list) > 3:
+                raise Exception("List cannot be longer than 3 elements.")
+
+            for i in countries_list:
+                if i in self.countries_list():
+                    predicted_countries.append(i)
+
+            if len(predicted_countries) == 0:
+                raise ValueError\
+                (f"Please choose from the following list of countries: {self.countries_list()}")
+
+        else:
+            raise TypeError("Please pass a list of countries to the method.")
+
+        return predicted_countries
