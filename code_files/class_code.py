@@ -10,6 +10,7 @@ import pandas as pd
 import numpy as np
 import seaborn as sns
 from matplotlib import pyplot as plt
+from statsmodels.tsa.arima.model import ARIMA
 
 
 class AgrosClass:
@@ -53,6 +54,9 @@ class AgrosClass:
     output_graph()
         Generates a plot of total output over time for a selected
         country or list of countries.
+    predictor()
+        Generates a plot of TFP over time for a maximum of three
+        countries along with a forecast until 2050.
     """
     def __init__(self,
                  url='https://raw.githubusercontent.com/owid/owid-datasets/master/datasets/Agricultural%20total%20factor%20productivity%20(USDA)/Agricultural%20total%20factor%20productivity%20(USDA).csv'):
@@ -309,6 +313,7 @@ class AgrosClass:
         """
         Receives a list of countries or a single country as input and creates a plot of the
         total output quantity over time for the selected countries.
+
         Parameters
         ---------------
         countries: str, list of str
@@ -318,7 +323,6 @@ class AgrosClass:
         ---------------
         None
             Displays a graph of the selected countries
-
         """
         if isinstance(countries, list):
             for country in countries:
@@ -364,22 +368,93 @@ class AgrosClass:
             raise ValueError("Input should be a string or a list of strings")
 
     def predictor(self, countries_list):
+        """
+        Receives a list of up to three countries and plots their
+        Total Factor Productivity over time along with a forecast
+        until 2050 for each country.
+
+        Parameters
+        ---------------
+        countries_list: list
+            Countries for which TFP should be plotted and forecasted
+
+        Returns
+        ---------------
+        None
+            Displays a graph of the selected countries
+        """
         predicted_countries = []
 
+        # Check that a list has been passed
         if isinstance(countries_list, list):
 
+            # Check list has three or less elements
             if len(countries_list) > 3:
                 raise Exception("List cannot be longer than 3 elements.")
 
+            # Identify the countries that are in the dataset
             for i in countries_list:
                 if i in self.countries_list():
                     predicted_countries.append(i)
 
+            # Check that at least one country is in dataset. If not, raise error
             if len(predicted_countries) == 0:
                 raise ValueError\
                 (f"Please choose from the following list of countries: {self.countries_list()}")
 
+            # Create a DataFrame with the selected countries in the optimal format for the plot
+            pivot_df = self.df_agros[["Entity", "Year", "tfp"]][self.df_agros["Entity"]\
+                                                               .isin(predicted_countries)]
+            plot_df = pivot_df.pivot_table(values = "tfp",
+                                           index = "Year",
+                                           columns = "Entity").reset_index()
+
+            # Create a few variables necessary for model and plot
+            additional_points = 31
+            xhat = np.arange(2020, 2051, 1)
+            color = ["b", "r", "g"]
+
+            # Create a for loop iterating through each country in set
+            for i, country in enumerate(predicted_countries):
+
+                # Create the model and make prediction
+                model = ARIMA(plot_df[country], order=(1, 2, 1))
+                model_fit = model.fit()
+
+                yhat = model_fit.predict(len(plot_df[country]),
+                                         len(plot_df[country])+additional_points-1,
+                                         typ='levels')
+
+                # Make plots with different linestyles
+                plt.plot(plot_df["Year"], plot_df[country],
+                         c = color[i], linestyle = "-",
+                         label = f"{country} Total Factor Productivity Historical Data",
+                        alpha = 0.65)
+                plt.plot(xhat, yhat,
+                         c = color[i], linestyle = "--",
+                        label = f"{country} Total Factor Productivity Predicted Data",
+                        alpha = 0.65)
+
+            # Aesthetic fixes
+            plt.legend(title = "Country and Data Type",
+                       loc = "center left", bbox_to_anchor=(1, 0.5))
+            plt.xlabel("Year")
+            plt.ylabel("Total Factor Productivity")
+
+            try:
+                plt.title("Total Factor Productivity over Time for "+
+                          predicted_countries[0]+", "+predicted_countries[1]+
+                          " and "+predicted_countries[2])
+
+            except IndexError:
+                try:
+                    plt.title("Total Factor Productivity over Time for "+
+                              predicted_countries[0]+" and "+
+                              predicted_countries[1])
+
+                except IndexError:
+                    plt.title("Total Factor Productivity over Time for "+
+                              predicted_countries[0])
+
         else:
             raise TypeError("Please pass a list of countries to the method.")
-
-        return predicted_countries
