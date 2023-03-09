@@ -7,13 +7,13 @@ of data for our final Python Notebook.
 import urllib.request
 import os
 import requests
-import folium
+#import folium
 import geopandas as gpd
 import pandas as pd
 import numpy as np
 import seaborn as sns
 from matplotlib import pyplot as plt
-from statsmodels.tsa.arima.model import ARIMA
+#from statsmodels.tsa.arima.model import ARIMA
 
 
 class AgrosClass:
@@ -441,7 +441,7 @@ class AgrosClass:
 
             # Check list has three or less elements
             if len(countries_list) > 3:
-                raise Exception("List cannot be longer than 3 elements.")
+                raise ValueError("List cannot be longer than 3 elements.")
 
             # Identify the countries that are in the dataset
             for i in countries_list:
@@ -510,9 +510,19 @@ class AgrosClass:
         else:
             raise TypeError("Please pass a list of countries to the method.")
 
-    def country_cleaning(self):
-        world = gpd.read_file(gpd.datasets.get_path('naturalearth_lowres'))
-        merged_df = world.merge(self.df_agros, how='left', left_on='name', right_on='Entity')
+    def country_cleaning(self, df_agros, df_geo):
+        """
+        Merges 2 dataframes together
+        Parameters
+        ---------------
+        df_agros : pandas.Dataframe including all the agricultural data
+        df_geo: pandas.Dataframe including aditional country data
+
+        Returns
+        ---------------
+        merged_df_cleared: both DF mergeded together with the correct country names
+        """
+        merged_df = df_geo.merge(df_agros, how='left', left_on='ADMIN', right_on='Entity')
         merge_dict = {'United States of America': 'United States', 'Dem. Rep. Congo': 'Democratic Republic of Congo',
               'Dominican Rep.': 'Dominican Republic', 'Timor-Leste': 'Timor', 'Eq. Guinea': 'Equatorial Guinea',
               'eSwatini': 'Eswatini', 'Solomon Is.': 'Solomon Islands', 'Bosnia and Herz.': 'Bosnia and Herzegovina',
