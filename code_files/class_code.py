@@ -5,8 +5,8 @@ Further, the class has 6 methods which facilitate the analysis
 of data for our final Python Notebook.
 """
 import urllib.request
-import requests
 import os
+import requests
 import pandas as pd
 import numpy as np
 import seaborn as sns
@@ -56,16 +56,11 @@ class AgrosClass:
         Generates a plot of total output over time for a selected
         country or list of countries.
     """
-    def __init__(self,
-                 url='https://raw.githubusercontent.com/owid/owid-datasets/master/datasets/Agricultural%20total%20factor%20productivity%20(USDA)/Agricultural%20total%20factor%20productivity%20(USDA).csv'):
+    def __init__(self):
         """
         Initializes the DataDownloader instance.
-
-        Parameters
-        ---------------
-        url (str): The URL from which to download the CSV file.
         """
-        self.url = url
+        self.url = 'https://raw.githubusercontent.com/owid/owid-datasets/master/datasets/Agricultural%20total%20factor%20productivity%20(USDA)/Agricultural%20total%20factor%20productivity%20(USDA).csv'
         self.google_url = "https://docs.google.com/uc?export=download"
         self.file_id = "1e8V2VfxVNqZirIXN_M1VZSWRIoMiUrzy"
         directory = 'downloads'
@@ -85,31 +80,33 @@ class AgrosClass:
 
         Returns
         ---------------
-        pandas.DataFrame: The loaded pandas DataFrame.
+        pandas.DataFrame: The loaded pandas DataFrame "df_agros"
+        pandas.DataFrame: containing additional geodata "df_geo"
         """
         file_name_agriculture = "agriculture_dataset.csv"
         file_name_countries = "ne_110m_admin_0_countries.zip"
         file_path_agriculture = os.path.join(self.directory, file_name_agriculture)
         file_path_countries = os.path.join(self.directory, file_name_countries)
-
+        #checks if agros file exist
         if os.path.exists(file_path_agriculture):
             print(f"{file_name_agriculture} already exists in {self.directory}")
+        #if it doesn't exist, it will download the file to the download folder
         else:
             if not os.path.exists(self.directory):
                 os.makedirs(self.directory)
             print(f"Downloading {file_name_agriculture}...")
             urllib.request.urlretrieve(self.url, file_path_agriculture)
             print(f"{file_name_agriculture} downloaded to {self.directory}")
-
+        #cheks if country zip already exists
         if os.path.exists(file_path_countries):
             print(f"{file_name_countries} already exists in {self.directory}")
+        #else downloads it from the google drive
         else:
             print(f"Downloading {file_name_countries}...")
             session = requests.Session()
             response = session.get(self.google_url, params={'id': self.file_id}, stream=True)
-
+            #checks token in extra function
             token = self.get_confirm_token(response)
-
             if token:
                 """
                 The value of 'confirm' is set to the value of token, 
@@ -117,19 +114,18 @@ class AgrosClass:
                 """
                 params = {'id': self.file_id, 'confirm': token}
                 response = session.get(self.google_url, params=params, stream=True)
-
-            CHUNK_SIZE = 32768
+            #define chunksize
+            chunk_size = 32768
             destination = self.directory + "/ne_110m_admin_0_countries.zip"
 
-            with open(destination, "wb") as f:
-                for chunk in response.iter_content(CHUNK_SIZE):
+            with open(destination, "wb") as file:
+                for chunk in response.iter_content(chunk_size):
                     if chunk:  # filter out keep-alive new chunks
-                        f.write(chunk)
+                        file.write(chunk)
                 print(f"{file_name_countries} downloaded to {self.directory}")
-        
         df_agros = pd.read_csv(file_path_agriculture)
-        df_geo = gpd.read_file(self.directory + "/ne_110m_admin_0_countries.zip!ne_110m_admin_0_countries.shp")
-
+        df_geo = gpd.read_file(self.directory + "/ne_110m_admin_0_countries.zip\
+                               !ne_110m_admin_0_countries.shp")
         return df_agros, df_geo
 
     def get_confirm_token(self, response):
@@ -142,7 +138,7 @@ class AgrosClass:
 
         Returns:
         ---------------
-        - str or None: The value of the download warning token if it exists in the cookies, None otherwise.
+        - str or None: Value of the download warning token if it exists, None otherwise.
         """
         for key, value in response.cookies.items():
             if key.startswith('download_warning'):
