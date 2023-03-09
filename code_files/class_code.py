@@ -42,6 +42,8 @@ class AgrosClass:
     download_and_read_file()
         Downloads and reads the CSV from URL.
         Creates downloads directory if necessary.
+    get_confirm_token()
+        Extracts the download confirmation token from the cookies of the response object.
     countries_list()
         Returns a list of all countries in the dataset.
     area_chart()
