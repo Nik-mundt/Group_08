@@ -134,8 +134,7 @@ class AgrosClass:
                         file.write(chunk)
                 print(f"{file_name_countries} downloaded to {self.directory}")
         df_agros = pd.read_csv(file_path_agriculture)
-        df_geo = gpd.read_file(self.directory + "/ne_110m_admin_0_countries.zip\
-                               !ne_110m_admin_0_countries.shp")
+        df_geo = gpd.read_file(self.directory + "/ne_110m_admin_0_countries.zip!ne_110m_admin_0_countries.shp")
         return df_agros, df_geo
 
     def get_confirm_token(self, response):
