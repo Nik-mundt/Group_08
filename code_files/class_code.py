@@ -12,6 +12,7 @@ import geopandas as gpd
 import pandas as pd
 import numpy as np
 import seaborn as sns
+from IPython.display import display
 from matplotlib import pyplot as plt
 from statsmodels.tsa.arima.model import ARIMA
 
@@ -513,11 +514,25 @@ class AgrosClass:
             raise TypeError("Please pass a list of countries to the method.")
 
     def country_cleaning(self):
-        world = gpd.read_file(gpd.datasets.get_path('naturalearth_lowres'))
-        merged_df = world.merge(self.df_agros, how='left', left_on='name', right_on='Entity')
         merge_dict = {'United States of America': 'United States', 'Dem. Rep. Congo': 'Democratic Republic of Congo',
               'Dominican Rep.': 'Dominican Republic', 'Timor-Leste': 'Timor', 'Eq. Guinea': 'Equatorial Guinea',
               'eSwatini': 'Eswatini', 'Solomon Is.': 'Solomon Islands', 'Bosnia and Herz.': 'Bosnia and Herzegovina',
               'S. Sudan': 'South Sudan'}
+        world = gpd.read_file(gpd.datasets.get_path('naturalearth_lowres'))
+        merged_df = world.merge(self.df_agros.replace(merge_dict), how='left', left_on='name', right_on='Entity')
         merged_df_cleaned = merged_df.replace(merge_dict)
         return merged_df_cleaned
+
+    def tfp_choro(self):
+        tfp_map = folium.Map()
+
+        folium.Choropleth(geo_data = self.country_cleaning(),
+                 name = "tfp choropleth",
+                 data = self.country_cleaning(),
+                 columns = ["name", "tfp"],
+                 key_on = "feature.properties.name",
+                 fill_color = "YlGn",
+                 fill_opacity = 0.65,
+                 line_opacity = 0.5,
+                 legend_name = "Total Factor Productivity").add_to(tfp_map)
+        display(tfp_map)
