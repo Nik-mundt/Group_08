@@ -134,7 +134,8 @@ class AgrosClass:
                         file.write(chunk)
                 print(f"{file_name_countries} downloaded to {self.directory}")
         df_agros = pd.read_csv(file_path_agriculture)
-        df_geo = gpd.read_file(self.directory + "/ne_110m_admin_0_countries.zip!ne_110m_admin_0_countries.shp")
+        df_geo = gpd.read_file(self.directory +
+                               "/ne_110m_admin_0_countries.zip!ne_110m_admin_0_countries.shp")
         return df_agros, df_geo
 
     def get_confirm_token(self, response):
@@ -523,9 +524,12 @@ class AgrosClass:
         merged_df_cleared: both DF mergeded together with the correct country names
         """
         merged_df = df_geo.merge(df_agros, how='left', left_on='ADMIN', right_on='Entity')
-        merge_dict = {'United States of America': 'United States', 'Dem. Rep. Congo': 'Democratic Republic of Congo',
-              'Dominican Rep.': 'Dominican Republic', 'Timor-Leste': 'Timor', 'Eq. Guinea': 'Equatorial Guinea',
-              'eSwatini': 'Eswatini', 'Solomon Is.': 'Solomon Islands', 'Bosnia and Herz.': 'Bosnia and Herzegovina',
-              'S. Sudan': 'South Sudan'}
+        merge_dict = {'United States of America': 'United States',
+                      'Dem. Rep. Congo': 'Democratic Republic of Congo',
+                      'Dominican Rep.': 'Dominican Republic', 'Timor-Leste': 'Timor', 
+                      'Eq. Guinea': 'Equatorial Guinea','eSwatini': 'Eswatini', 
+                      'Solomon Is.': 'Solomon Islands', 
+                      'Bosnia and Herz.': 'Bosnia and Herzegovina',
+                      'S. Sudan': 'South Sudan'}
         merged_df_cleaned = merged_df.replace(merge_dict)
         return merged_df_cleaned
