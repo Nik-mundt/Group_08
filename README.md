@@ -66,7 +66,7 @@ agros.output_graph(["United States", "China"])
 agros.corr_matrix(keyword="quantity")
 
 # Show and predict the TFP of 3 countries
-agros.predictor(full_list)
+agros.predictor(["Italy", "Portugal", "Germany"])
 ```
 
 
