@@ -7,13 +7,13 @@ of data for our final Python Notebook.
 import urllib.request
 import os
 import requests
-#import folium
+import folium
 import geopandas as gpd
 import pandas as pd
 import numpy as np
 import seaborn as sns
 from matplotlib import pyplot as plt
-#from statsmodels.tsa.arima.model import ARIMA
+from statsmodels.tsa.arima.model import ARIMA
 
 
 class AgrosClass:
