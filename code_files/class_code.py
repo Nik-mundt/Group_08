@@ -252,8 +252,7 @@ class AgrosClass:
                               (plot_df["fish_total"] \
                                / plot_df["year_total"]) * 100)
                 plt.ylabel("% of Output by Type")
-                plt.title("Share of Total Quantity by Output Type Over Time\
-                (World)")
+                plt.title("Share of Total Quantity by Output Type Over Time (World)")
 
             plt.xlabel("Year")
             plt.legend(["Crop", "Animal", "Fish"])
@@ -503,8 +502,8 @@ class AgrosClass:
         folium.Choropleth(geo_data = self.country_cleaning(),
                  name = "tfp choropleth",
                  data = self.country_cleaning(),
-                 columns = ["name", "tfp"],
-                 key_on = "feature.properties.name",
+                 columns = ["ADMIN", "tfp"],
+                 key_on = "feature.properties.ADMIN",
                  fill_color = "YlGn",
                  fill_opacity = 0.65,
                  line_opacity = 0.5,
