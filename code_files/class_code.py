@@ -512,13 +512,12 @@ class AgrosClass:
             Merged DataFrame between df_geo and df_agros
         """
 
-        merge_dict = {'United States of America': 'United States',
-                      'Dem. Rep. Congo': 'Democratic Republic of Congo',
-                      'Dominican Rep.': 'Dominican Republic', 'Timor-Leste': 'Timor',
-                      'Eq. Guinea': 'Equatorial Guinea',
-                      'eSwatini': 'Eswatini', 'Solomon Is.': 'Solomon Islands',
-                      'Bosnia and Herz.': 'Bosnia and Herzegovina',
-                      'S. Sudan': 'South Sudan'}
+        merge_dict = {'United States of America': 'United States', 'Democratic Republic of the Congo': 
+                      'Democratic Republic of Congo','Dominican Rep.': 'Dominican Republic', 
+                      'Timor-Leste': 'Timor', 'Eq. Guinea': 'Equatorial Guinea', 'eSwatini': 'Eswatini', 
+                      'Solomon Is.': 'Solomon Islands', 'Bosnia and Herz.': 'Bosnia and Herzegovina', 
+                      'S. Sudan': 'South Sudan', 'Republic of the Congo': 'Congo', 'United Republic of Tanzania': 
+                      'Tanzania', 'Republic of Serbia': 'Serbia'}
         world_df = self.df_geo.replace(merge_dict)
         merged_df = world_df.merge(self.df_agros, how='left', left_on='ADMIN', right_on='Entity')
         merged_df_cleaned = merged_df.replace(merge_dict)
