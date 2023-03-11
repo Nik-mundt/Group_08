@@ -118,15 +118,6 @@ class AgrosClass:
             print(f"Downloading {file_name_countries}...")
             session = requests.Session()
             response = session.get(self.google_url, params={'id': self.file_id}, stream=True)
-            #checks token in extra function
-            token = self.get_confirm_token(response)
-            if token:
-                """
-                The value of 'confirm' is set to the value of token, 
-                which is the download confirmation token extracted from the response cookie.
-                """
-                params = {'id': self.file_id, 'confirm': token}
-                response = session.get(self.google_url, params=params, stream=True)
             #define chunksize
             chunk_size = 32768
             destination = self.directory + "/ne_110m_admin_0_countries.zip"
@@ -139,23 +130,6 @@ class AgrosClass:
         df_agros = pd.read_csv(file_path_agriculture)
         df_geo = gpd.read_file(self.directory + "/ne_110m_admin_0_countries.zip!ne_110m_admin_0_countries.shp")
         return df_agros, df_geo
-
-    def get_confirm_token(self, response):
-        """
-        Extracts the download confirmation token from the cookies of the response object.
-
-        Parameters:
-        ---------------
-        - response (requests.Response): The response object from the HTTP request.
-
-        Returns:
-        ---------------
-        - str or None: Value of the download warning token if it exists, None otherwise.
-        """
-        for key, value in response.cookies.items():
-            if key.startswith('download_warning'):
-                return value
-        return None
 
     def countries_list(self):
         """
@@ -518,8 +492,8 @@ class AgrosClass:
               'Dominican Rep.': 'Dominican Republic', 'Timor-Leste': 'Timor', 'Eq. Guinea': 'Equatorial Guinea',
               'eSwatini': 'Eswatini', 'Solomon Is.': 'Solomon Islands', 'Bosnia and Herz.': 'Bosnia and Herzegovina',
               'S. Sudan': 'South Sudan'}
-        world = gpd.read_file(gpd.datasets.get_path('naturalearth_lowres')).replace(merge_dict)
-        merged_df = world.merge(self.df_agros, how='left', left_on='name', right_on='Entity')
+        world = self.df_geo.replace(merge_dict)
+        merged_df = world.merge(self.df_agros, how='left', left_on='ADMIN', right_on='Entity')
         merged_df_cleaned = merged_df.replace(merge_dict)
         return merged_df_cleaned
 
