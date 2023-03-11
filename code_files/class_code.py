@@ -36,7 +36,9 @@ class AgrosClass:
     directory:
         Directory of the downloads folder
     df_agros: DataFrame
-        DataFrame containing the downloaded CSV
+        DataFrame containing the agros CSV
+    df_geo: DataFrame
+        DataFrame containing country geo data
 
     Methods
     --------
@@ -63,6 +65,12 @@ class AgrosClass:
     predictor()
         Generates a plot of TFP over time for a maximum of three
         countries along with a forecast until 2050.
+    country_cleaning()
+        Merges df_geo and df_agros after homogenizing the country
+        nomenclature.
+    tfp_choro()
+        Generates a choropleth with Total Factor Productivity by
+        country.
     """
     def __init__(self,
                  url='https://raw.githubusercontent.com/owid/owid-datasets/master/datasets/Agricultural%20total%20factor%20productivity%20(USDA)/Agricultural%20total%20factor%20productivity%20(USDA).csv'):
@@ -487,16 +495,47 @@ class AgrosClass:
             raise TypeError("Please pass a list of countries to the method.")
 
     def country_cleaning(self):
+        """
+        When called, makes the country nomenclature homogeneous across
+        df_agros and and df_geo. Subsequently, it performs a left merge
+        on the country names with df_geo on the left.
+        
+        Parameters
+        ---------------
+        self
+            Refers to the class to which the module belongs
+
+        Returns
+        ---------------
+        merged_df_cleaned: Pandas DataFrame
+            Merged DataFrame between df_geo and df_agros
+        """
+
         merge_dict = {'United States of America': 'United States', 'Dem. Rep. Congo': 'Democratic Republic of Congo',
               'Dominican Rep.': 'Dominican Republic', 'Timor-Leste': 'Timor', 'Eq. Guinea': 'Equatorial Guinea',
               'eSwatini': 'Eswatini', 'Solomon Is.': 'Solomon Islands', 'Bosnia and Herz.': 'Bosnia and Herzegovina',
               'S. Sudan': 'South Sudan'}
-        world = self.df_geo.replace(merge_dict)
-        merged_df = world.merge(self.df_agros, how='left', left_on='ADMIN', right_on='Entity')
+        world_df = self.df_geo.replace(merge_dict)
+        merged_df = world_df.merge(self.df_agros, how='left', left_on='ADMIN', right_on='Entity')
         merged_df_cleaned = merged_df.replace(merge_dict)
         return merged_df_cleaned
 
     def tfp_choro(self):
+        """
+        Creates a choropleth displaying Total Factor Productivity
+        by country through a color scale.
+
+        Parameters
+        ---------------
+        self
+            Refers to the class to which the module belongs
+
+        Returns
+        ---------------
+        None
+            Displays the choropleth.
+        """
+
         tfp_map = folium.Map()
 
         folium.Choropleth(geo_data = self.country_cleaning(),
