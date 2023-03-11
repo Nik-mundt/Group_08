@@ -136,7 +136,8 @@ class AgrosClass:
                         file.write(chunk)
                 print(f"{file_name_countries} downloaded to {self.directory}")
         df_agros = pd.read_csv(file_path_agriculture)
-        df_geo = gpd.read_file(self.directory + "/ne_110m_admin_0_countries.zip!ne_110m_admin_0_countries.shp")
+        df_geo = gpd.read_file(self.directory +
+                               "/ne_110m_admin_0_countries.zip!ne_110m_admin_0_countries.shp")
         return df_agros, df_geo
 
     def countries_list(self):
@@ -499,7 +500,7 @@ class AgrosClass:
         When called, makes the country nomenclature homogeneous across
         df_agros and and df_geo. Subsequently, it performs a left merge
         on the country names with df_geo on the left.
-        
+
         Parameters
         ---------------
         self
@@ -511,10 +512,13 @@ class AgrosClass:
             Merged DataFrame between df_geo and df_agros
         """
 
-        merge_dict = {'United States of America': 'United States', 'Dem. Rep. Congo': 'Democratic Republic of Congo',
-              'Dominican Rep.': 'Dominican Republic', 'Timor-Leste': 'Timor', 'Eq. Guinea': 'Equatorial Guinea',
-              'eSwatini': 'Eswatini', 'Solomon Is.': 'Solomon Islands', 'Bosnia and Herz.': 'Bosnia and Herzegovina',
-              'S. Sudan': 'South Sudan'}
+        merge_dict = {'United States of America': 'United States',
+                      'Dem. Rep. Congo': 'Democratic Republic of Congo',
+                      'Dominican Rep.': 'Dominican Republic', 'Timor-Leste': 'Timor',
+                      'Eq. Guinea': 'Equatorial Guinea',
+                      'eSwatini': 'Eswatini', 'Solomon Is.': 'Solomon Islands',
+                      'Bosnia and Herz.': 'Bosnia and Herzegovina',
+                      'S. Sudan': 'South Sudan'}
         world_df = self.df_geo.replace(merge_dict)
         merged_df = world_df.merge(self.df_agros, how='left', left_on='ADMIN', right_on='Entity')
         merged_df_cleaned = merged_df.replace(merge_dict)
