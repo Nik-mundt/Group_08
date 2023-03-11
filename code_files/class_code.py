@@ -426,7 +426,7 @@ class AgrosClass:
 
             # Check list has three or less elements
             if len(countries_list) > 3:
-                raise Exception("List cannot be longer than 3 elements.")
+                raise ValueError("List cannot be longer than 3 elements.")
 
             # Identify the countries that are in the dataset
             for i in countries_list:
@@ -512,18 +512,19 @@ class AgrosClass:
             Merged DataFrame between df_geo and df_agros
         """
 
-        merge_dict = {'United States of America': 'United States', 'Democratic Republic of the Congo': 
-                      'Democratic Republic of Congo','Dominican Rep.': 'Dominican Republic', 
-                      'Timor-Leste': 'Timor', 'Eq. Guinea': 'Equatorial Guinea', 'eSwatini': 'Eswatini', 
-                      'Solomon Is.': 'Solomon Islands', 'Bosnia and Herz.': 'Bosnia and Herzegovina', 
-                      'S. Sudan': 'South Sudan', 'Republic of the Congo': 'Congo', 'United Republic of Tanzania': 
-                      'Tanzania', 'Republic of Serbia': 'Serbia'}
+        merge_dict = {'United States of America': 'United States',
+            'Democratic Republic of the Congo': 'Democratic Republic of Congo',
+            'Dominican Rep.': 'Dominican Republic', 
+            'Timor-Leste': 'Timor', 'Eq. Guinea': 'Equatorial Guinea', 'eSwatini': 'Eswatini', 
+            'Solomon Is.': 'Solomon Islands', 'Bosnia and Herz.': 'Bosnia and Herzegovina', 
+            'S. Sudan': 'South Sudan', 'Republic of the Congo': 'Congo', 
+            'United Republic of Tanzania': 'Tanzania', 'Republic of Serbia': 'Serbia'}
         world_df = self.df_geo.replace(merge_dict)
         merged_df = world_df.merge(self.df_agros, how='left', left_on='ADMIN', right_on='Entity')
         merged_df_cleaned = merged_df.replace(merge_dict)
         return merged_df_cleaned
 
-    def tfp_choro(self):
+    def choropleth(self, year: int = 2019):
         """
         Creates a choropleth displaying Total Factor Productivity
         by country through a color scale.
@@ -532,22 +533,48 @@ class AgrosClass:
         ---------------
         self
             Refers to the class to which the module belongs
+        year : int
+            Enter a year to display the choropleth
 
         Returns
         ---------------
         None
             Displays the choropleth.
         """
-
+        if not isinstance(year, int):
+            raise TypeError("The input year should be an integer.")
+        merged_df = self.country_cleaning()
+        # Filter data for the given year
+        df_year = merged_df[merged_df["Year"] == year]
+        if df_year.empty:
+            raise ValueError("No data found for the given year.")
+        # Set the "Country" column as index for the test_dict
+        test_dict = df_year.set_index('ADMIN')['tfp']
+        # Define the color scale based on min and max values of TFP
+        tfp_min = df_year["tfp"].min()
+        tfp_max = df_year["tfp"].max()
+        color_scale = folium.LinearColormap(
+            colors=['red','orange', 'yellow','green'],
+            vmin=tfp_min,
+            vmax=tfp_max
+        )
+        # Create the map object
         tfp_map = folium.Map()
-
-        folium.Choropleth(geo_data = self.country_cleaning(),
-                 name = "tfp choropleth",
-                 data = self.country_cleaning(),
-                 columns = ["ADMIN", "tfp"],
-                 key_on = "feature.properties.ADMIN",
-                 fill_color = "YlGn",
-                 fill_opacity = 0.65,
-                 line_opacity = 0.5,
-                 legend_name = "Total Factor Productivity").add_to(tfp_map)
+        # Create the GeoJSON layer for the choropleth
+        folium.GeoJson(
+            df_year,
+            name="tfp choropleth",
+            style_function=lambda feature: {
+                'fillColor': color_scale(test_dict[feature['properties']['ADMIN']]),
+                'color': 'black',
+                'weight': 0.5,
+                'fillOpacity': 0.65
+            },
+            tooltip=folium.features.GeoJsonTooltip(fields=['ADMIN', 'tfp']),
+            highlight_function=lambda x: {'weight': 3, 'color':'white'}
+        ).add_to(tfp_map)
+        # Add the color scale and layer control to the map object
+        color_scale.add_to(tfp_map)
+        folium.LayerControl().add_to(tfp_map)
+        # Display the map object
         display(tfp_map)
