@@ -38,17 +38,17 @@ Returns all distinct entries in the countries column of the class' DataFrame in 
 `area_chart(self, country, normalize)`
 Plots an area chart tracking the evolution of output quantity segmented by type (crop, animal and fish) over time. A string can be passed to the country argument to select the country for which data is displayed, passing None or "World" will cause the method to use globally aggregated data. When the normalize argument is set to True, the figures are no longer displayed in absolute terms, but in percentage of the total output.
 
-`__gapminder__(self, year)`
-Plots a scatter plot of fertilizer_quantity vs output_quantity with the size of each dot determined by the total factor productivity, for a given year.
+`gapminder(self, year, log)`
+Plots a scatter plot of fertilizer_quantity vs output_quantity with the size of each dot determined by the labor quantity. User must pass a year for which this plot must be generated. Scales are logarithmic by default, but can be displayed in absolute values by setting the log parameter to false.
 
 `corr_matrix(self, keyword)`
-Calculates and displays a correlation matrix heatmap for the columns in df_agros that contain the specified keyword in their column name.
+Calculates and displays a correlation matrix heatmap for the columns in df_agros that contain the specified keyword in their column name. Default keyword is "quantity".
 
 `output_graph(self, countries)`
 Creates a plot of the total output quantity over time for a list of countries or a single country.
 
-`country_cleaning(self, df_agros, df_geo)`
-This method takes in two pandas DataFrames, df_agros and df_geo, and merges them together based on the country names. Before the merge any inconsistencies in the country names are corrected.
+`country_cleaning(self)`
+This method takes in two pandas DataFrames, df_agros and df_geo (both attributes of the class), and merges them together based on the country names. Before the merge, any inconsistencies in the country names are corrected.
 
 `predictor(self, countries_list)`
 This method takes a list of up to three countries and plots their Total Factor Productivity (TFP) over time, along with a forecast until 2050 for each country. The function returns nothing and simply displays a graph of the selected countries. 
