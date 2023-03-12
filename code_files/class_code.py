@@ -212,6 +212,8 @@ class AgrosClass:
                                    "crop_output_quantity",
                                    "animal_output_quantity",
                                    "fish_output_quantity"]]
+        plt.annotate('Source: Agricultural total factor productivity (USDA)', (0, 0), (-80, -20),
+                     fontsize=6, xycoords='axes fraction', textcoords='offset points', va='top')
 
         if country in self.countries_list():
             plot_df = output_df[output_df["Entity"] == country]
@@ -230,7 +232,6 @@ class AgrosClass:
                               (plot_df["fish_output_quantity"] /plot_df["output_quantity"]) *100)
                 plt.ylabel("% of Output by Type")
                 plt.title(f"Share of Total Output by Output Type ({country})")
-
             plt.xlabel("Year")
             plt.legend(["Crop", "Animal", "Fish"])
 
@@ -310,8 +311,11 @@ class AgrosClass:
             ax_plot.set_xlabel('Fertilizer Quantity')
             ax_plot.set_ylabel('Output Quantity')
 
-        fig_plot.legend("Size: Labor Quantity")
-        ax_plot.set_title(f'Crops Production in {year}')
+        #fig_plot.legend("Size: ")
+        ax_plot.legend(['Labor Quantity'], bbox_to_anchor=(1, 1), borderaxespad=1)
+        ax_plot.set_title(f'Output Quantity Relative to Fertilizer Input in {year}')
+        ax_plot.annotate('Source: Agricultural total factor productivity (USDA)', (0, 0), (-80, -20), fontsize=6,
+                     xycoords='axes fraction', textcoords='offset points', va='top')
         fig_plot.show()
 
 
@@ -344,6 +348,8 @@ class AgrosClass:
         corr_heatmap.set_xticklabels(corr_heatmap.get_xticklabels(), fontsize=7)
         corr_heatmap.set_yticklabels(corr_heatmap.get_yticklabels(), fontsize=7)
         plt.title(f"Correlation Matrix of Columns containing {keyword}",fontsize=15)
+        plt.annotate('Source: Agricultural total factor productivity (USDA)', (0, 0), (-80, -100),
+                     fontsize=6, xycoords='axes fraction', textcoords='offset points', va='top')
         plt.show()
 
     def output_graph(self, countries):
@@ -387,6 +393,10 @@ class AgrosClass:
             ax_output.set(xlabel='Year', ylabel='Output Quantity')
             ax_output.legend(loc='upper left', bbox_to_anchor=(1, 1))
             ax_output.set_title(f'Total output per year of the follwing countries: {countries}')
+
+            ax_output.annotate('Source: Agricultural total factor productivity (USDA)', (0, 0),
+                               (-80, -20), fontsize=6, xycoords='axes fraction',
+                               textcoords='offset points', va='top')
             plt.show()
         elif isinstance(countries, str):
             if countries[0].isupper() is False:
@@ -400,6 +410,9 @@ class AgrosClass:
             ax_output.set(xlabel='Year', ylabel='Output Quantity')
             ax_output.legend([countries], loc='upper left', bbox_to_anchor=(1, 1))
             ax_output.set_title(f'Total output per year of the follwing country: {countries}')
+
+            ax_output.annotate('Source: Agricultural total factor productivity (USDA)', (0, 0), (-80, -20), fontsize=6,
+                               xycoords='axes fraction', textcoords='offset points', va='top')
             plt.show()
         else:
             raise ValueError("Input should be a string or a list of strings")
@@ -452,6 +465,10 @@ class AgrosClass:
             xhat = np.arange(2020, 2051, 1)
             color = ["b", "r", "g"]
             sns.set_theme()
+
+            plt.annotate('Source: Agricultural total factor productivity (USDA)', (0, 0),
+                         (-80, -20), fontsize=6, xycoords='axes fraction',
+                         textcoords='offset points', va='top')
 
             # Create a for loop iterating through each country in set
             for i, country in enumerate(predicted_countries):
@@ -591,5 +608,10 @@ class AgrosClass:
         # Add the color scale and layer control to the map object
         color_scale.add_to(tfp_map)
         folium.LayerControl().add_to(tfp_map)
+
+        # Adding a marker to the map
+        folium.Marker(location=[-40, -110],
+                      popup='Source: Agricultural total factor productivity (USDA); \
+                      Cultural Vectors (Natural Earth)').add_to(tfp_map)
         # Display the map object
         display(tfp_map)
