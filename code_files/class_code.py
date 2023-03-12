@@ -585,7 +585,8 @@ class AgrosClass:
                 'weight': 0.5,
                 'fillOpacity': 0.65
             },
-            tooltip=folium.features.GeoJsonTooltip(fields=['ADMIN', 'tfp']),
+            tooltip=folium.features.GeoJsonTooltip(fields=['ADMIN', 'tfp'],
+                                                  aliases = ["Country", "TFP"]),
             highlight_function=lambda x: {'weight': 3, 'color':'white'}
         ).add_to(tfp_map)
         # Add the color scale and layer control to the map object
