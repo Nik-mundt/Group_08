@@ -38,7 +38,7 @@ Returns all distinct entries in the countries column of the class' DataFrame in 
 `area_chart(self, country, normalize)`
 Plots an area chart tracking the evolution of output quantity segmented by type (crop, animal and fish) over time. A string can be passed to the country argument to select the country for which data is displayed, passing None or "World" will cause the method to use globally aggregated data. When the normalize argument is set to True, the figures are no longer displayed in absolute terms, but in percentage of the total output.
 
-`__gapminder__(self, year)`
+`gapminder(self, year)`
 Plots a scatter plot of fertilizer_quantity vs output_quantity with the size of each dot determined by the total factor productivity, for a given year.
 
 `corr_matrix(self, keyword)`
