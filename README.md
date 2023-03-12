@@ -4,11 +4,18 @@ The AgrosClass is a Python module that provides functionality for analyzing agri
 There are 9 methods available, which range from downloading the data to more complex visualizations and predictions of trends.
 
 ## Installation
-To use the Project, you can simply clone the repository from GitHub using the following bash statement:
-
-
+To use the Project, simply clone the repository from GitHub using the following bash statement:
 ```bash
 git clone git@github.com:Nik-mundt/Group_08.git
+```
+
+To make sure, that you have all packages installed, feel free to use the group_08.yaml file, which ensures that everything works smoothly.
+If you need help importing this to Anaconda, check out the following link: https://python-bloggers.com/2021/09/creating-and-replicating-an-anaconda-environment-from-a-yaml-file/
+You can either:
+- use the GUI from Anaconda and simply import the yaml file
+- use the terminal and enter the following code snipped (if you are in the same directory than the file):
+```bash
+conda env create -f group_08.yaml
 ```
 
 ## Usage
@@ -46,6 +53,9 @@ This method takes in two pandas DataFrames, df_agros and df_geo, and merges them
 `predictor(self, countries_list)`
 This method takes a list of up to three countries and plots their Total Factor Productivity (TFP) over time, along with a forecast until 2050 for each country. The function returns nothing and simply displays a graph of the selected countries. 
 
+`choropleth(self, year)`
+This method takes a year as an input. If the input is not an integer or outside the available year range it will throw an error. The result is a choropleth map for the given input year (default is 2019), where you can hover over each country and see the tfp and the country name. The color scale is linear.
+
 ## Example
 Here's an example of how to use the AgrosClass:
 
@@ -67,6 +77,9 @@ agros.corr_matrix(keyword="quantity")
 
 # Show and predict the TFP of 3 countries
 agros.predictor(["Italy", "Portugal", "Germany"])
+
+# Show a choropleth map for the year 2005
+agros.choropleth(2005)
 ```
 
 
