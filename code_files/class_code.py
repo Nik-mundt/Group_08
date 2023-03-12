@@ -6,6 +6,7 @@ of data for our final Python Notebook.
 """
 import urllib.request
 import os
+import warnings
 import requests
 import folium
 import geopandas as gpd
@@ -14,7 +15,7 @@ import numpy as np
 import seaborn as sns
 from IPython.display import display
 from matplotlib import pyplot as plt
-from statsmodels.tsa.arima.model import ARIMA
+from pmdarima import auto_arima
 
 
 class AgrosClass:
@@ -68,7 +69,7 @@ class AgrosClass:
     country_cleaning()
         Merges df_geo and df_agros after homogenizing the country
         nomenclature.
-    tfp_choro()
+    choropleth()
         Generates a choropleth with Total Factor Productivity by
         country.
     """
@@ -343,6 +344,7 @@ class AgrosClass:
         corr_heatmap.set_xticklabels(corr_heatmap.get_xticklabels(), fontsize=7)
         corr_heatmap.set_yticklabels(corr_heatmap.get_yticklabels(), fontsize=7)
         plt.title(f"Correlation Matrix of Columns containing {keyword}",fontsize=15)
+        plt.text(x, y, s, fontdict=None, **kwargs)
         plt.show()
 
     def output_graph(self, countries):
@@ -407,7 +409,8 @@ class AgrosClass:
         """
         Receives a list of up to three countries and plots their
         Total Factor Productivity over time along with a forecast
-        until 2050 for each country.
+        until 2050 for each country. The forecast is created with
+        an ARIMA model optimized through AutoARIMA.
 
         Parameters
         ---------------
@@ -449,27 +452,40 @@ class AgrosClass:
             additional_points = 31
             xhat = np.arange(2020, 2051, 1)
             color = ["b", "r", "g"]
+            sns.set_theme()
 
             # Create a for loop iterating through each country in set
             for i, country in enumerate(predicted_countries):
 
+                warnings.filterwarnings("ignore")
                 # Create the model and make prediction
-                model = ARIMA(plot_df[country], order=(1, 2, 1))
-                model_fit = model.fit()
+                stepwise_fit = auto_arima(plot_df[country],
+                                          start_p = 1,
+                                          start_q = 1,
+                                          max_p = 4,
+                                          max_q = 4,
+                                          m = 1,
+                                          seasonal = False,
+                                          d = None,
+                                          trace = False,
+                                          error_action ='ignore',
+                                          suppress_warnings = True,
+                                          stepwise = True)
 
-                yhat = model_fit.predict(len(plot_df[country]),
-                                         len(plot_df[country])+additional_points-1,
-                                         typ='levels')
+                prediction = pd.DataFrame(stepwise_fit\
+                                          .predict(n_periods = additional_points))
+                prediction['Year'] = xhat
 
                 # Make plots with different linestyles
                 plt.plot(plot_df["Year"], plot_df[country],
                          c = color[i], linestyle = "-",
                          label = f"{country} Total Factor Productivity Historical Data",
-                        alpha = 0.65)
-                plt.plot(xhat, yhat,
+                         alpha = 0.65)
+
+                plt.plot(prediction["Year"], prediction[0],
                          c = color[i], linestyle = "--",
-                        label = f"{country} Total Factor Productivity Predicted Data",
-                        alpha = 0.65)
+                         label = f"{country} Total Factor Productivity Predicted Data",
+                         alpha = 0.65)
 
             # Aesthetic fixes
             plt.legend(title = "Country and Data Type",
@@ -514,10 +530,10 @@ class AgrosClass:
 
         merge_dict = {'United States of America': 'United States',
             'Democratic Republic of the Congo': 'Democratic Republic of Congo',
-            'Dominican Rep.': 'Dominican Republic', 
-            'Timor-Leste': 'Timor', 'Eq. Guinea': 'Equatorial Guinea', 'eSwatini': 'Eswatini', 
-            'Solomon Is.': 'Solomon Islands', 'Bosnia and Herz.': 'Bosnia and Herzegovina', 
-            'S. Sudan': 'South Sudan', 'Republic of the Congo': 'Congo', 
+            'Dominican Rep.': 'Dominican Republic',
+            'Timor-Leste': 'Timor', 'Eq. Guinea': 'Equatorial Guinea', 'eSwatini': 'Eswatini',
+            'Solomon Is.': 'Solomon Islands', 'Bosnia and Herz.': 'Bosnia and Herzegovina',
+            'S. Sudan': 'South Sudan', 'Republic of the Congo': 'Congo',
             'United Republic of Tanzania': 'Tanzania', 'Republic of Serbia': 'Serbia'}
         world_df = self.df_geo.replace(merge_dict)
         merged_df = world_df.merge(self.df_agros, how='left', left_on='ADMIN', right_on='Entity')
