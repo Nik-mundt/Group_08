@@ -15,7 +15,7 @@ You can either:
 - use the GUI from Anaconda and simply import the yaml file
 - use the terminal and enter the following code snipped (if you are in the same directory than the file):
 ```bash
-conda env create -f group_08.yaml
+conda env create -f group_08.yml
 ```
 
 ## Usage
