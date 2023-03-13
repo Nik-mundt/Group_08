@@ -1,4 +1,24 @@
 # Group_08
+## Introduction
+Welcome to our GitHub repository! Before we delve into the details of our code, we would like to introduce our team. We worked collaboratively to create this amazing repository and learned a lot about project management, collaboration, and staying PEP8 compliant.
+
+Our team is composed of:
+| Name      | Student Number | E-Mail     |
+| :---        |    :----:   |          ---: |
+| Alessandro Alfio Maugeri  | 53067       | 53067@novasbe.pt   |
+| Hanna Luise Baeuchle   | 53279        | 53279@novasbe.pt      |
+| Johannes Rahn  | 53958       | 53958@novasbe.pt   |
+| Niklas Patrick Mundt   | 53766        | 53766@novasbe.pt      |
+
+Now, let's take a deep dive into our code and explore how you can quickly get started using it.
+
+## Table of Contents
+1. [AgrosClass](#agrosclass)
+2. [Installation](#installation)
+3. [Usage](#usage)
+4. [Examples](#examples)
+5. [License](#license)
+
 ## AgrosClass
 The AgrosClass is a Python module that provides functionality for analyzing agricultural data and combines it with additional data from Natural Earth.
 There are 9 methods available, which range from downloading the data to more complex visualizations and predictions of trends.
@@ -56,7 +76,7 @@ This method takes a list of up to three countries and plots their Total Factor P
 `choropleth(self, year, fixed_scale)`
 This method takes a year and a boolean as an input. If the input is not an integer or outside the available year range it will throw an error. The boolean enables a fixed color scale, which makes it easier to compare different years. The result is a choropleth map for the given input year (default is 2019), where you can hover over each country and see the tfp and the country name. The color scale is linear.
 
-## Example
+## Examples
 Here's an example of how to use the AgrosClass:
 
 ```python
