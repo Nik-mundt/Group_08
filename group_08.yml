@@ -1,4 +1,4 @@
-name: Group_08
+name: group_08
 dependencies:
   - geopandas=0.12.*
   - pandas=1.5.*
