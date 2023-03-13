@@ -556,7 +556,7 @@ class AgrosClass:
         merged_df_cleaned = merged_df.replace(merge_dict)
         return merged_df_cleaned
 
-    def choropleth(self, year: int = 2019):
+    def choropleth(self, year: int = 2019, fixed_scale: bool = False):
         """
         Creates a choropleth displaying Total Factor Productivity
         by country through a color scale.
@@ -567,6 +567,9 @@ class AgrosClass:
             Refers to the class to which the module belongs
         year : int
             Enter a year to display the choropleth
+        fixed_scale : bool
+            False to use the min and max values of that year
+            True to use a fixed scale [40, 180]
 
         Returns
         ---------------
@@ -582,9 +585,13 @@ class AgrosClass:
             raise ValueError("No data found for the given year.")
         # Set the "Country" column as index for the test_dict
         test_dict = df_year.set_index('ADMIN')['tfp']
-        # Define the color scale based on min and max values of TFP
-        tfp_min = df_year["tfp"].min()
-        tfp_max = df_year["tfp"].max()
+        if fixed_scale:
+            tfp_min = 40
+            tfp_max = 180
+        else:
+            # Define the color scale based on min and max values of TFP
+            tfp_min = df_year["tfp"].min()
+            tfp_max = df_year["tfp"].max()
         color_scale = folium.LinearColormap(
             colors=['red','orange', 'yellow','green'],
             vmin=tfp_min,
