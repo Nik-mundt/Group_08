@@ -12,7 +12,7 @@ git clone git@github.com:Nik-mundt/Group_08.git
 To make sure, that you have all packages installed, feel free to use the group_08.yaml file, which ensures that everything works smoothly.
 If you need help importing this to Anaconda, check out the following link: https://python-bloggers.com/2021/09/creating-and-replicating-an-anaconda-environment-from-a-yaml-file/
 You can either:
-- use the GUI from Anaconda and simply import the yaml file
+- use the GUI from Anaconda and simply import the yml file
 - use the terminal and enter the following code snipped (if you are in the same directory than the file):
 ```bash
 conda env create -f group_08.yml
@@ -53,8 +53,8 @@ This method takes in two pandas DataFrames, df_agros and df_geo (both attributes
 `predictor(self, countries_list)`
 This method takes a list of up to three countries and plots their Total Factor Productivity (TFP) over time, along with a forecast until 2050 for each country. The function returns nothing and simply displays a graph of the selected countries. 
 
-`choropleth(self, year)`
-This method takes a year as an input. If the input is not an integer or outside the available year range it will throw an error. The result is a choropleth map for the given input year (default is 2019), where you can hover over each country and see the tfp and the country name. The color scale is linear.
+`choropleth(self, year, fixed_scale)`
+This method takes a year and a boolean as an input. If the input is not an integer or outside the available year range it will throw an error. The boolean enables a fixed color scale, which makes it easier to compare different years. The result is a choropleth map for the given input year (default is 2019), where you can hover over each country and see the tfp and the country name. The color scale is linear.
 
 ## Example
 Here's an example of how to use the AgrosClass:
