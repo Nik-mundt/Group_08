@@ -45,6 +45,7 @@ To use the AgrosClass, you can import it in your Python code as follows:
 from class_code.agros_class import AgrosClass
 ```
 You can then create an instance of the class and use its methods to analyze the agricultural data. Here are the methods available in the AgrosClass:
+Feel free to also use the sphinx documenation, which is stored under `docs/_build/index.html`
 
 `__init__(self, url)`
 Initializes the AgrosClass instance and downloads the agricultural data CSV file from a specified URL.
