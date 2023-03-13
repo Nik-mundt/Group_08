@@ -151,12 +151,12 @@ class AgrosClass:
         Parameters
         ---------------
         self
-        Refers to the class to which the module belongs to.
+            Refers to the class to which the module belongs to.
 
         Returns
         ---------------
         countries: list
-        A list of all distinct countries in the dataframe.
+            A list of all distinct countries in the dataframe.
         """
         countries = list(self.df_agros["Entity"].unique())
         non_countries = ["Central Africa", "Central America",
@@ -192,13 +192,13 @@ class AgrosClass:
         Parameters
         ---------------
         country: str
-        The country for which data is being plotted, passing "World"
-        or None will yield globally aggregated data.
+            The country for which data is being plotted, passing "World"
+            or None will yield globally aggregated data.
 
         normalize: bool
-        A boolean that signals whether data should be presented
-        as a percentage of total output (when True) or in absolute
-        units (when False).
+            A boolean that signals whether data should be presented
+            as a percentage of total output (when True) or in absolute
+            units (when False).
 
         Returns
         ---------------
