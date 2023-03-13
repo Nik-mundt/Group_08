@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>class_code module &mdash; Group 08  documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="code_files" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Group 08
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">code_files</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">class_code module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#class_code.AgrosClass"><code class="docutils literal notranslate"><span class="pre">AgrosClass</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#class_code.AgrosClass.directory"><code class="docutils literal notranslate"><span class="pre">AgrosClass.directory</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#class_code.AgrosClass.df_agros"><code class="docutils literal notranslate"><span class="pre">AgrosClass.df_agros</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#class_code.AgrosClass.df_geo"><code class="docutils literal notranslate"><span class="pre">AgrosClass.df_geo</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#class_code.AgrosClass.download_and_read_file"><code class="docutils literal notranslate"><span class="pre">AgrosClass.download_and_read_file()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#class_code.AgrosClass.get_confirm_token"><code class="docutils literal notranslate"><span class="pre">AgrosClass.get_confirm_token()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#class_code.AgrosClass.countries_list"><code class="docutils literal notranslate"><span class="pre">AgrosClass.countries_list()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#class_code.AgrosClass.area_chart"><code class="docutils literal notranslate"><span class="pre">AgrosClass.area_chart()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#class_code.AgrosClass.gapminder"><code class="docutils literal notranslate"><span class="pre">AgrosClass.gapminder()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#class_code.AgrosClass.corr_matrix"><code class="docutils literal notranslate"><span class="pre">AgrosClass.corr_matrix()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#class_code.AgrosClass.output_graph"><code class="docutils literal notranslate"><span class="pre">AgrosClass.output_graph()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#class_code.AgrosClass.predictor"><code class="docutils literal notranslate"><span class="pre">AgrosClass.predictor()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#class_code.AgrosClass.country_cleaning"><code class="docutils literal notranslate"><span class="pre">AgrosClass.country_cleaning()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#class_code.AgrosClass.choropleth"><code class="docutils literal notranslate"><span class="pre">AgrosClass.choropleth()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id0"><code class="docutils literal notranslate"><span class="pre">AgrosClass.area_chart()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id1"><code class="docutils literal notranslate"><span class="pre">AgrosClass.choropleth()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id2"><code class="docutils literal notranslate"><span class="pre">AgrosClass.corr_matrix()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id3"><code class="docutils literal notranslate"><span class="pre">AgrosClass.countries_list()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id4"><code class="docutils literal notranslate"><span class="pre">AgrosClass.country_cleaning()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id5"><code class="docutils literal notranslate"><span class="pre">AgrosClass.download_and_read_file()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id6"><code class="docutils literal notranslate"><span class="pre">AgrosClass.gapminder()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id7"><code class="docutils literal notranslate"><span class="pre">AgrosClass.output_graph()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id8"><code class="docutils literal notranslate"><span class="pre">AgrosClass.predictor()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Group 08</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">code_files</a></li>
+      <li class="breadcrumb-item active">class_code module</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/class_code.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-class_code">
+<span id="class-code-module"></span><h1>class_code module<a class="headerlink" href="#module-class_code" title="Permalink to this heading"></a></h1>
+<p>Defines class “AgrosClass” which downloads the necessary dataset
+and reads it as a Pandas DataFrame and retains it as an attribute.
+Further, the class has 6 methods which facilitate the analysis
+of data for our final Python Notebook.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="class_code.AgrosClass">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">class_code.</span></span><span class="sig-name descname"><span class="pre">AgrosClass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">url</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'https://raw.githubusercontent.com/owid/owid-datasets/master/datasets/Agricultural%20total%20factor%20productivity%20(USDA)/Agricultural%20total%20factor%20productivity%20(USDA).csv'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#class_code.AgrosClass" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Downloads a CSV file from a given URL, saves it in
+a local folder, and reads it into a pandas DataFrame
+that is an attribute of the class. The CSV is stored
+in a “downloads” folder in the file’s directory. If the
+folder does not exist, the class automatically creates
+it.</p>
+<p>The class downloads the USDA’s Agricultural Total Factor
+Productivity dataset by default, but a different URL can be
+passed as an argument if necessary. A set of methods can
+be used to analyze the data visually.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="class_code.AgrosClass.directory">
+<span class="sig-name descname"><span class="pre">directory</span></span><a class="headerlink" href="#class_code.AgrosClass.directory" title="Permalink to this definition"></a></dt>
+<dd><p>Directory of the downloads folder</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="class_code.AgrosClass.df_agros">
+<span class="sig-name descname"><span class="pre">df_agros</span></span><a class="headerlink" href="#class_code.AgrosClass.df_agros" title="Permalink to this definition"></a></dt>
+<dd><p>DataFrame containing the agros CSV</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="class_code.AgrosClass.df_geo">
+<span class="sig-name descname"><span class="pre">df_geo</span></span><a class="headerlink" href="#class_code.AgrosClass.df_geo" title="Permalink to this definition"></a></dt>
+<dd><p>DataFrame containing country geo data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="class_code.AgrosClass.download_and_read_file">
+<span class="sig-name descname"><span class="pre">download_and_read_file</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#class_code.AgrosClass.download_and_read_file" title="Permalink to this definition"></a></dt>
+<dd><p>Downloads and reads the CSV from URL.
+Creates downloads directory if necessary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="class_code.AgrosClass.get_confirm_token">
+<span class="sig-name descname"><span class="pre">get_confirm_token</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#class_code.AgrosClass.get_confirm_token" title="Permalink to this definition"></a></dt>
+<dd><p>Extracts the download confirmation token from the cookies of the response object.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="class_code.AgrosClass.countries_list">
+<span class="sig-name descname"><span class="pre">countries_list</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#class_code.AgrosClass.countries_list" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a list of all countries in the dataset.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="class_code.AgrosClass.area_chart">
+<span class="sig-name descname"><span class="pre">area_chart</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#class_code.AgrosClass.area_chart" title="Permalink to this definition"></a></dt>
+<dd><p>Plots an area chart displaying the composition
+of a country’s output segmented by output type.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="class_code.AgrosClass.gapminder">
+<span class="sig-name descname"><span class="pre">gapminder</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#class_code.AgrosClass.gapminder" title="Permalink to this definition"></a></dt>
+<dd><p>Generates a scatter plot displaying the relationship
+between fertilizer use and output for a given year.
+Mark size represents factor productivity.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="class_code.AgrosClass.corr_matrix">
+<span class="sig-name descname"><span class="pre">corr_matrix</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#class_code.AgrosClass.corr_matrix" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates and displays a correlation matrix heatmap for
+the columns in the DataFrame containing a specified keyword.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="class_code.AgrosClass.output_graph">
+<span class="sig-name descname"><span class="pre">output_graph</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#class_code.AgrosClass.output_graph" title="Permalink to this definition"></a></dt>
+<dd><p>Generates a plot of total output over time for a selected
+country or list of countries.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="class_code.AgrosClass.predictor">
+<span class="sig-name descname"><span class="pre">predictor</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#class_code.AgrosClass.predictor" title="Permalink to this definition"></a></dt>
+<dd><p>Generates a plot of TFP over time for a maximum of three
+countries along with a forecast until 2050.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="class_code.AgrosClass.country_cleaning">
+<span class="sig-name descname"><span class="pre">country_cleaning</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#class_code.AgrosClass.country_cleaning" title="Permalink to this definition"></a></dt>
+<dd><p>Merges df_geo and df_agros after homogenizing the country
+nomenclature.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="class_code.AgrosClass.choropleth">
+<span class="sig-name descname"><span class="pre">choropleth</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#class_code.AgrosClass.choropleth" title="Permalink to this definition"></a></dt>
+<dd><p>Generates a choropleth with Total Factor Productivity by
+country.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id0">
+<span class="sig-name descname"><span class="pre">area_chart</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">country</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">normalize</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id0" title="Permalink to this definition"></a></dt>
+<dd><p>Plots an area chart tracking the evolution of output quantity
+segmented by type (crop, animal and fish) over time. A
+string can be passed to the “country” argument to select the
+country for which data is diplayed, passing None or “World”
+will cause the method to use globally aggregated data. When
+the “normalize” argument is set to “True”, the figures are no
+longer displayed in absolute terms, but in percentage of the
+total output.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>country</strong> (<em>str</em>) – The country for which data is being plotted, passing “World”
+or None will yield globally aggregated data.</p></li>
+<li><p><strong>normalize</strong> (<em>bool</em>) – A boolean that signals whether data should be presented
+as a percentage of total output (when True) or in absolute
+units (when False).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Plots the figure requested.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id1">
+<span class="sig-name descname"><span class="pre">choropleth</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">year</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">2019</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fixed_scale</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id1" title="Permalink to this definition"></a></dt>
+<dd><p>Creates a choropleth displaying Total Factor Productivity
+by country through a color scale.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>self</strong> – Refers to the class to which the module belongs</p></li>
+<li><p><strong>year</strong> (<em>int</em>) – Enter a year to display the choropleth</p></li>
+<li><p><strong>fixed_scale</strong> (<em>bool</em>) – False to use the min and max values of that year
+True to use a fixed scale [40, 180]</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Displays the choropleth.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id2">
+<span class="sig-name descname"><span class="pre">corr_matrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">keyword</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'quantity'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id2" title="Permalink to this definition"></a></dt>
+<dd><p>Calculates and displays a correlation matrix heatmap for the columns in
+df_agros that contain the specified keyword in their column name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>(</strong><strong>str</strong><strong>)</strong> (<em>keyword</em>) – </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Displays a heatmap of the correlation matrix</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id3">
+<span class="sig-name descname"><span class="pre">countries_list</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id3" title="Permalink to this definition"></a></dt>
+<dd><p>Returns all distinct entries in the countries column of the
+class’ dataframe in the form of a list. Removes any occurrence
+of macro-regions or income-based geographical distributions and only
+shows country names.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>self</strong> – Refers to the class to which the module belongs to.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>countries</strong> – A list of all distinct countries in the dataframe.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id4">
+<span class="sig-name descname"><span class="pre">country_cleaning</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id4" title="Permalink to this definition"></a></dt>
+<dd><p>When called, makes the country nomenclature homogeneous across
+df_agros and and df_geo. Subsequently, it performs a left merge
+on the country names with df_geo on the left.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>self</strong> – Refers to the class to which the module belongs</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>merged_df_cleaned</strong> – Merged DataFrame between df_geo and df_agros</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Pandas DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id5">
+<span class="sig-name descname"><span class="pre">download_and_read_file</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#id5" title="Permalink to this definition"></a></dt>
+<dd><p>Downloads the CSV file from the specified URL and saves it in the <cite>downloads</cite> directory.
+If the file is already present in the directory, it loads the file into a pandas DataFrame.
+Otherwise, it creates the directory, downloads the file, and then loads it into a DataFrame.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><ul class="simple">
+<li><p><strong>pandas.DataFrame</strong> (<em>The loaded pandas DataFrame “df_agros”</em>)</p></li>
+<li><p><strong>pandas.DataFrame</strong> (<em>containing additional geodata “df_geo”</em>)</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id6">
+<span class="sig-name descname"><span class="pre">gapminder</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">year</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">log</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id6" title="Permalink to this definition"></a></dt>
+<dd><p>This method plots a scatter plot of fertilizer_quantity vs
+output_quantity with the size of each dot determined
+by the total factor productivity, for a given year.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>(</strong><strong>int</strong><strong>)</strong> (<em>year</em>) – </p></li>
+<li><p><strong>(</strong><strong>bool</strong><strong>)</strong> (<em>log</em>) – logarithmic scale or not. Defaults to True.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Displays a gapminder-style scatter plot between fertilizer
+quantity and output quantity.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id7">
+<span class="sig-name descname"><span class="pre">output_graph</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">countries</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id7" title="Permalink to this definition"></a></dt>
+<dd><p>Receives a list of countries or a single country as input and creates a plot of the
+total output quantity over time for the selected countries.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>countries</strong> (<em>str</em><em>, </em><em>list</em><em> of </em><em>str</em>) – Countries of which a plot is created</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Displays a graph of the selected countries</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="id8">
+<span class="sig-name descname"><span class="pre">predictor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">countries_list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#id8" title="Permalink to this definition"></a></dt>
+<dd><p>Receives a list of up to three countries and plots their
+Total Factor Productivity over time along with a forecast
+until 2050 for each country. The forecast is created with
+an ARIMA model optimized through AutoARIMA.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>countries_list</strong> (<em>list</em>) – Countries for which TFP should be plotted and forecasted</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Displays a graph of the selected countries</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>None</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="modules.html" class="btn btn-neutral float-left" title="code_files" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Johannes Rahn, Niklas Mundt, Alessandro Alfio Maugeri, Hanna Luise Baeuchle.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
