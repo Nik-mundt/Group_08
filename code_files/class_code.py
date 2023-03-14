@@ -314,7 +314,8 @@ class AgrosClass:
         #fig_plot.legend("Size: ")
         ax_plot.legend(['Labor Quantity'], bbox_to_anchor=(1, 1), borderaxespad=1)
         ax_plot.set_title(f'Output Quantity Relative to Fertilizer Input in {year}')
-        ax_plot.annotate('Source: Agricultural total factor productivity (USDA)', (0, 0), (-80, -20), fontsize=6,
+        ax_plot.annotate('Source: Agricultural total factor productivity (USDA)',
+                         (0, 0), (-80, -20), fontsize=6,
                      xycoords='axes fraction', textcoords='offset points', va='top')
         fig_plot.show()
 
@@ -411,7 +412,8 @@ class AgrosClass:
             ax_output.legend([countries], loc='upper left', bbox_to_anchor=(1, 1))
             ax_output.set_title(f'Total output per year of the follwing country: {countries}')
 
-            ax_output.annotate('Source: Agricultural total factor productivity (USDA)', (0, 0), (-80, -20), fontsize=6,
+            ax_output.annotate('Source: Agricultural total factor productivity (USDA)',
+                               (0, 0), (-80, -20), fontsize=6,
                                xycoords='axes fraction', textcoords='offset points', va='top')
             plt.show()
         else:
