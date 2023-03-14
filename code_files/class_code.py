@@ -315,7 +315,7 @@ class AgrosClass:
         ax_plot.legend(['Labor Quantity'], bbox_to_anchor=(1, 1), borderaxespad=1)
         ax_plot.set_title(f'Output Quantity Relative to Fertilizer Input in {year}')
         ax_plot.annotate('Source: Agricultural total factor productivity (USDA)',
-                         (0, 0), (-80, -20), fontsize=6,
+                         (0, 0), (-90, -30), fontsize=6,
                      xycoords='axes fraction', textcoords='offset points', va='top')
         fig_plot.show()
 
